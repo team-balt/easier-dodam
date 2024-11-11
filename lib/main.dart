@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'component/theme/style.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -110,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text(
               '왜 안돼:',
-              style: TextStyle(fontFamily: "KBIZ"),
+              style: EasierDodamStyles.label2,
             ),
             Text(
               '$_counter',
