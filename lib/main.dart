@@ -1,3 +1,4 @@
+import 'package:easier_dodam/component/textfield.dart';
 import 'package:flutter/material.dart';
 
 import 'component/theme/style.dart';
@@ -108,15 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              '왜 안돼:',
-              style: EasierDodamStyles.label2,
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            EasierDodamTextField(
+              hintText: "hint Text",
+              supportText: "Supporting text",
+              labelText: "label Text",
             ),
           ],
         ),
