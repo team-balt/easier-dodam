@@ -10,14 +10,17 @@ class EasierDodamTextField extends StatefulWidget {
   final String? supportText;
   final FocusNode? focusNode;
   final TextEditingController? controller;
+  final bool obscureText;
 
-  const EasierDodamTextField(
-      {super.key,
-      this.labelText,
-      this.hintText,
-      this.supportText,
-      this.focusNode,
-      this.controller});
+  const EasierDodamTextField({
+    super.key,
+    this.labelText,
+    this.hintText,
+    this.supportText,
+    this.focusNode,
+    this.controller,
+    this.obscureText = false,
+  });
 
   @override
   State<EasierDodamTextField> createState() => _EasierDodamTextFieldState();
@@ -33,7 +36,6 @@ class _EasierDodamTextFieldState extends State<EasierDodamTextField> {
     super.initState();
     _focusNode = widget.focusNode ?? FocusNode();
     _controller = widget.controller ?? TextEditingController();
-
     _focusNode.addListener(() {
       setState(() {});
     });
@@ -77,6 +79,7 @@ class _EasierDodamTextFieldState extends State<EasierDodamTextField> {
             style: EasierDodamStyles.label1.copyWith(height: 1.3),
             textAlignVertical: TextAlignVertical.center,
             cursorColor: EasierDodamColors.primary300,
+            obscureText: widget.obscureText,
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: EasierDodamStyles.label1.copyWith(height: 1.3),

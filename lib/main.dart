@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         fontFamily: "Pretendard",
+        scaffoldBackgroundColor: EasierDodamColors.staticWhite,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -83,11 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: Container(
-        color: EasierDodamColors.staticWhite,
-        child: SafeArea(
-          child: LoginScreen(),
-        ),
+      body: SafeArea(
+        child: LoginScreen(),
       ),
     );
   }
