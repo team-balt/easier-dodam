@@ -13,6 +13,7 @@ class LoginDataSource {
       url: EasierDodamUrl.AUTH_LOGIN,
       body: LoginRequest(id: id, pw: pw).toJson(),
       decoder: LoginResponse.fromJson,
+      sendToken: false,
     );
   }
 }

@@ -27,7 +27,7 @@ class StorageManager {
     await _storage.write(key: _accessTokenKey, value: accessToken);
   }
 
-  static Future<String?> getUserAccessToken(String accessToken) async {
+  static Future<String?> getUserAccessToken() async {
     return await _storage.read(key: _accessTokenKey);
   }
 
