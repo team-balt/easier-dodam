@@ -44,7 +44,6 @@ class _EasierDodamTextFieldState extends State<EasierDodamTextField> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     if (widget.controller == null) {
       _controller.dispose();
     }

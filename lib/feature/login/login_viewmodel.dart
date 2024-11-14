@@ -16,7 +16,7 @@ class LoginViewModel with ChangeNotifier {
     _loginDataSource = LoginDataSource();
   }
 
-  Future<void> login(
+  Future<bool> login(
     String id,
     String pw,
   ) async {
@@ -28,5 +28,6 @@ class LoginViewModel with ChangeNotifier {
     _testState =
         "발급된 계정 토큰\naccessToken: ${response.data.accessToken}\nrefreshToken: ${response.data.refreshToken}";
     notifyListeners();
+    return true;
   }
 }

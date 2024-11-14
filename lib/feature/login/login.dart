@@ -17,73 +17,92 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _pwTextFieldController = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _idTextFieldController.dispose();
+    _pwTextFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(),
-      child: Consumer<LoginViewModel>(
-        builder: (context, provider, child) {
-          // testState = provider.testState;
-          return Container(
-            color: EasierDodamColors.staticWhite,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  "도담도담 계정을 입력해주세요",
-                  style: EasierDodamStyles.title1,
-                  textAlign: TextAlign.start,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                EasierDodamTextField(
-                  labelText: "아이디",
-                  hintText: "도담도담 아이디를 입력해주세요.",
-                  controller: _idTextFieldController,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                EasierDodamTextField(
-                  labelText: "비밀번호",
-                  hintText: "도담도담 비밀번호를 입력해주세요.",
-                  obscureText: true,
-                  controller: _pwTextFieldController,
-                ),
-                Expanded(child: SizedBox()),
-                Text(context.watch<LoginViewModel>().testState),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56.0,
-                  child: MaterialButton(
-                    height: 56.0,
-                    color: EasierDodamColors.primary300,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0)),
-                    child: Text(
-                      "로그인",
-                      style: EasierDodamStyles.body2,
+    return Scaffold(
+      body: SafeArea(
+        child: ChangeNotifierProvider(
+          create: (_) => LoginViewModel(),
+          child: Consumer<LoginViewModel>(
+            builder: (context, provider, child) {
+              // testState = provider.testState;
+              return Container(
+                color: EasierDodamColors.staticWhite,
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 24,
                     ),
-                    textColor: EasierDodamColors.staticWhite,
-                    onPressed: () {
-                      provider.login(
-                        _idTextFieldController.text,
-                        _pwTextFieldController.text,
-                      );
-                    },
-                  ),
+                    Text(
+                      "도담도담 계정을 입력해주세요",
+                      style: EasierDodamStyles.title1,
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    EasierDodamTextField(
+                      labelText: "아이디",
+                      hintText: "도담도담 아이디를 입력해주세요.",
+                      controller: _idTextFieldController,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    EasierDodamTextField(
+                      labelText: "비밀번호",
+                      hintText: "도담도담 비밀번호를 입력해주세요.",
+                      obscureText: true,
+                      controller: _pwTextFieldController,
+                    ),
+                    Expanded(child: SizedBox()),
+                    Text(context.watch<LoginViewModel>().testState),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56.0,
+                      child: MaterialButton(
+                        height: 56.0,
+                        color: EasierDodamColors.primary300,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Text(
+                          "로그인",
+                          style: EasierDodamStyles.body2,
+                        ),
+                        textColor: EasierDodamColors.staticWhite,
+                        onPressed: () async {
+                          final isSuccess = await provider.login(
+                            _idTextFieldController.text,
+                            _pwTextFieldController.text,
+                          );
+
+                          if (isSuccess) {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              "test",
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-              ],
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
