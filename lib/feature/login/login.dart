@@ -1,7 +1,7 @@
 import 'package:easier_dodam/component/textfield.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
-import 'package:easier_dodam/feature/login/loginViewModel.dart';
+import 'package:easier_dodam/feature/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 
@@ -13,6 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _idTextFieldController = TextEditingController();
+  final TextEditingController _pwTextFieldController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -30,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 24,
                 ),
                 Text(
-                  "도담도담 계정을 입력해주세요" + context.watch<LoginViewModel>().testState,
+                  "도담도담 계정을 입력해주세요",
                   style: EasierDodamStyles.title1,
                   textAlign: TextAlign.start,
                 ),
@@ -40,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 EasierDodamTextField(
                   labelText: "아이디",
                   hintText: "도담도담 아이디를 입력해주세요.",
+                  controller: _idTextFieldController,
                 ),
                 SizedBox(
                   height: 10,
@@ -48,8 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: "비밀번호",
                   hintText: "도담도담 비밀번호를 입력해주세요.",
                   obscureText: true,
+                  controller: _pwTextFieldController,
                 ),
                 Expanded(child: SizedBox()),
+                Text(context.watch<LoginViewModel>().testState),
                 SizedBox(
                   width: double.infinity,
                   height: 56.0,
@@ -64,7 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     textColor: EasierDodamColors.staticWhite,
                     onPressed: () {
-                      provider.testSet();
+                      provider.login(
+                        _idTextFieldController.text,
+                        _pwTextFieldController.text,
+                      );
                     },
                   ),
                 ),

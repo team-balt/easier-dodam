@@ -1,11 +1,15 @@
 import 'package:easier_dodam/component/textfield.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 import 'component/theme/style.dart';
 import 'feature/login/login.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 추가
+  await FlutterConfig.loadEnvVariables(); // 추가
+
   runApp(const MyApp());
 }
 
