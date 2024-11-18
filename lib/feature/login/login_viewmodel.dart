@@ -4,7 +4,7 @@ import 'package:easier_dodam/remote/login/login_data_source.dart';
 import 'package:easier_dodam/remote/login/response/login_response.dart';
 import 'package:flutter/material.dart';
 
-class LoginViewModel with ChangeNotifier {
+class LoginViewmodel with ChangeNotifier {
   late LoginDataSource _loginDataSource;
 
   String _testState = "";
