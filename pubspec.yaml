@@ -33,7 +33,7 @@ dependencies:
   provider:
   flutter_secure_storage: ^4.2.1
   http: ^1.2.0
-
+  flutter_svg: ^2.0.7 # 최신 버전 확인 후 사용
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -92,6 +92,10 @@ flutter:
           weight: 600
         - asset: assets/fonts/pretendard_bold.ttf
           weight: 700
+        - asset: assets/img/Bed.svg
+        - asset: assets/img/door_open.svg
+        - asset: assets/img/gear.svg
+        - asset: assets/img/moon_plus.svg
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
