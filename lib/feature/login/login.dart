@@ -2,6 +2,7 @@ import 'package:easier_dodam/component/textfield.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/login/login_viewmodel.dart';
+import 'package:easier_dodam/feature/out/out_navigation.dart';
 import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (isSuccess) {
                             Navigator.pushReplacementNamed(
                               context,
-                              "test",
+                              outRoute,
                             );
                           }
                         },

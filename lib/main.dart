@@ -1,11 +1,13 @@
 import 'package:easier_dodam/component/textfield.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/feature/login/login_navigation.dart';
+import 'package:easier_dodam/feature/out/out.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 import 'component/theme/style.dart';
 import 'feature/login/login.dart';
+import 'feature/out/out_navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 추가
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
       initialRoute: loginRoute,
       routes: {
         loginRoute: (context) => LoginScreen(),
+        outRoute: (context) => OutScreen(),
         "test": (context) => Scaffold(
               body: Text("test"),
             )
