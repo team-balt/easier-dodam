@@ -4,11 +4,15 @@ PODS:
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
+  - sqflite_darwin (0.0.4):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
@@ -17,11 +21,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_config/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_config: f48f0d47a284f1791aacce2687eabb3309ba7a41
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
+  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
