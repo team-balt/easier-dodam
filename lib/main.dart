@@ -28,8 +28,9 @@ class MyApp extends StatelessWidget {
         fontFamily: "Pretendard",
         scaffoldBackgroundColor: EasierDodamColors.staticWhite,
       ),
-      initialRoute: loginRoute,
+      initialRoute: nightStudyRoute,
       routes: {
+        nightStudyRoute: (context) => NightStudyScreen(),
         loginRoute: (context) => LoginScreen(),
         "test": (context) => Scaffold(
               body: Text("test"),

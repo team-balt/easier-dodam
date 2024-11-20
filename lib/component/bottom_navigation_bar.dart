@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class EasierDodamBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const CustomBottomNavigationBar({
+  const EasierDodamBottomNavigationBar({
     Key? key,
     required this.selectedIndex,
     required this.onItemTapped,
@@ -31,25 +31,25 @@ class CustomBottomNavigationBar extends StatelessWidget {
         children: [
           _buildNavItem(
             context,
-            icon: 'assets/img/Bed.svg',
+            icon: 'assets/images/ic_bed.svg',
             label: '외박',
             index: 0,
           ),
           _buildNavItem(
             context,
-            icon: 'assets/img/door_open.svg',
+            icon: 'assets/images/ic_door_open.svg',
             label: '외출',
             index: 1,
           ),
           _buildNavItem(
             context,
-            icon: 'assets/img/moon_plus.svg',
+            icon: 'assets/images/ic_moon_plus.svg',
             label: '심야자습',
             index: 3,
           ),
           _buildNavItem(
             context,
-            icon: 'assets/img/gear.svg',
+            icon: 'assets/images/ic_gear.svg',
             label: '설정',
             index: 2,
           ),
