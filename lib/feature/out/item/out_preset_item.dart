@@ -3,7 +3,20 @@ import 'package:easier_dodam/component/theme/style.dart';
 import 'package:flutter/material.dart';
 
 class OutPresetItem extends StatelessWidget {
-  const OutPresetItem({super.key});
+  final String title;
+  final String reason;
+  final String startAt;
+  final String endAt;
+  final Function() onTrashClick;
+
+  const OutPresetItem({
+    super.key,
+    required this.title,
+    required this.reason,
+    required this.startAt,
+    required this.endAt,
+    required this.onTrashClick,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +31,7 @@ class OutPresetItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "프리셋#1",
+                  title,
                   style: EasierDodamStyles.body2
                       .copyWith(color: EasierDodamColors.gray700),
                 ),
@@ -26,7 +39,7 @@ class OutPresetItem extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  "사유 : ㅈㅂㄷㅂㅈㄷㅈㄷ",
+                  "사유 : $reason",
                   style: EasierDodamStyles.body2
                       .copyWith(color: EasierDodamColors.gray600),
                 ),
@@ -40,7 +53,7 @@ class OutPresetItem extends StatelessWidget {
                       style: EasierDodamStyles.body2.copyWith(fontSize: 12.0),
                     ),
                     Text(
-                      " 13시 50분",
+                      " $startAt",
                       style: EasierDodamStyles.body2.copyWith(fontSize: 14.0),
                     ),
                     Expanded(child: SizedBox()),
@@ -49,7 +62,7 @@ class OutPresetItem extends StatelessWidget {
                       style: EasierDodamStyles.body2.copyWith(fontSize: 12.0),
                     ),
                     Text(
-                      " 13시 50분",
+                      " $endAt",
                       style: EasierDodamStyles.body2.copyWith(fontSize: 14.0),
                     ),
                   ],
@@ -63,9 +76,12 @@ class OutPresetItem extends StatelessWidget {
           SizedBox(
             width: 24,
             height: 24,
-            child: Image.asset(
-              "assets/images/ic_trash.png",
-              color: EasierDodamColors.gray700,
+            child: InkWell(
+              onTap: onTrashClick,
+              child: Image.asset(
+                "assets/images/ic_trash.png",
+                color: EasierDodamColors.gray700,
+              ),
             ),
           )
         ],
