@@ -37,88 +37,12 @@ class _OutScreenState extends State<OutScreen> {
                       return ChangeNotifierProvider.value(
                         value: viewModel,
                         child: Consumer<OutViewModel>(
-                          builder: (BuildContext context, OutViewModel value,
-                              Widget? child) {
-                            return ModalBottomSheetContainer(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "외출 신청하기",
-                                          style: EasierDodamStyles.title1,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      ...viewModel.outEntities
-                                          .map(
-                                            (data) => OutPresetItem(
-                                              title: data.title,
-                                              reason: data.reason,
-                                              startAt: data.startAt.toString(),
-                                              endAt: data.endAt.toString(),
-                                              onTrashClick: () {
-                                                viewModel
-                                                    .removeEntity(data.id ?? 0);
-                                              },
-                                            ),
-                                          )
-                                          .toList(),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Divider(
-                                        height: 1,
-                                        color: EasierDodamColors.gray600,
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushReplacementNamed(
-                                            context,
-                                            outCreateRoute,
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 24,
-                                                height: 24,
-                                                child: Image.asset(
-                                                  "assets/images/ic_plus.png",
-                                                  color:
-                                                      EasierDodamColors.gray700,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 8,
-                                              ),
-                                              Text(
-                                                "새로운 프리셋 만들기",
-                                                style: EasierDodamStyles.body2,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
+                          builder: (
+                            BuildContext context,
+                            OutViewModel value,
+                            Widget? child,
+                          ) {
+                            return _bottomSheet(context, viewModel);
                           },
                         ),
                       );
@@ -170,6 +94,90 @@ class _OutScreenState extends State<OutScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _bottomSheet(BuildContext context, OutViewModel viewModel) {
+    return ModalBottomSheetContainer(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "외출 신청하기",
+                  style: EasierDodamStyles.title1,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              ...viewModel.outEntities
+                  .map(
+                    (data) => OutPresetItem(
+                      title: data.title,
+                      reason: data.reason,
+                      startAt: data.startAt.toString(),
+                      endAt: data.endAt.toString(),
+                      onTrashClick: () {
+                        viewModel.removeEntity(data.id ?? 0);
+                      },
+                      onClick: () async {
+                        Navigator.pop(context);
+                        await viewModel.requestOut(data);
+                      },
+                    ),
+                  )
+                  .toList(),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(
+                height: 1,
+                color: EasierDodamColors.gray600,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    outCreateRoute,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Image.asset(
+                          "assets/images/ic_plus.png",
+                          color: EasierDodamColors.gray700,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "새로운 프리셋 만들기",
+                        style: EasierDodamStyles.body2,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -6,4 +6,6 @@ abstract class EasierDodamUrl {
 
   static get AUTH_LOGIN => _SERVER_URL + "/auth/login";
   static get REISSUE_LOGIN => _SERVER_URL + "/auth/reissue";
+
+  static get OUT_GOING => _SERVER_URL + "/out-going";
 }
