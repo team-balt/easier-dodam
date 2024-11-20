@@ -28,4 +28,14 @@ class OutDataSource {
 
     return response.data;
   }
+
+  Future<bool> deleteMyOut(int id) async {
+    final response = await CoreClient.delete<void>(
+      url: EasierDodamUrl.OUT_GOING + "/$id",
+    );
+
+    print(response.message);
+
+    return true;
+  }
 }

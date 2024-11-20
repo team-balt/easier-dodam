@@ -93,7 +93,9 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                                   OutStatus.PENDING => TagType.PENDING,
                                   OutStatus.REJECTED => TagType.REJECT,
                                 },
-                                onClickTrash: () {},
+                                onClickTrash: () {
+                                  viewModel.deleteMyOut(item.id);
+                                },
                                 startAt: item.startAt.timeOfDay,
                                 endAt: item.endAt.timeOfDay,
                               ),

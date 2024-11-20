@@ -75,10 +75,13 @@ class OutItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: Image.asset("assets/images/ic_trash.png"),
+                InkWell(
+                  onTap: onClickTrash,
+                  child: SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Image.asset("assets/images/ic_trash.png"),
+                  ),
                 )
               ],
             ),

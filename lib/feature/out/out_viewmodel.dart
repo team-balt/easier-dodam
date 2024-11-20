@@ -45,6 +45,13 @@ class OutViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteMyOut(int id) async {
+    print("delete start");
+    await _outDataSource.deleteMyOut(id);
+    _outResponses.removeWhere((data) => data.id == id);
+    notifyListeners();
+  }
+
   Future<bool> requestOut(OutEntity outEntity) async {
     await _outDataSource.postOut(
       outEntity.reason,
