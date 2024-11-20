@@ -97,27 +97,11 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                             viewModel.getMyOuts();
                           },
                         ),
-                        ...viewModel.outResponses
-                            .map((item) => Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    OutItem(
-                                      tagType: switch (item.status) {
-                                        OutStatus.ALLOWED => TagType.APPROVE,
-                                        OutStatus.PENDING => TagType.PENDING,
-                                        OutStatus.REJECTED => TagType.REJECT,
-                                      },
-                                      onClickTrash: () {
-                                        viewModel.deleteMyOut(item.id);
-                                      },
-                                      startAt: item.startAt.timeOfDay,
-                                      endAt: item.endAt.timeOfDay,
-                                    ),
-                                  ],
-                                ))
-                            .toList(),
+                        ..._outItemsView(
+                          viewModel.outResponses,
+                          viewModel.isLoading,
+                          (item) => {viewModel.deleteMyOut(item.id)},
+                        ),
                       ],
                     ),
                   ),
@@ -216,6 +200,31 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
     } else {
       return SizedBox();
     }
+  }
+
+  List<Widget> _outItemsView(List<OutResponse> items, bool isLoading,
+      Function(OutResponse) onClickTrash) {
+    return items
+        .map((item) => Column(
+              children: [
+                SizedBox(
+                  height: 12,
+                ),
+                OutItem(
+                  tagType: switch (item.status) {
+                    OutStatus.ALLOWED => TagType.APPROVE,
+                    OutStatus.PENDING => TagType.PENDING,
+                    OutStatus.REJECTED => TagType.REJECT,
+                  },
+                  onClickTrash: () {
+                    onClickTrash(item);
+                  },
+                  startAt: item.startAt.timeOfDay,
+                  endAt: item.endAt.timeOfDay,
+                ),
+              ],
+            ))
+        .toList();
   }
 
   Widget _bottomSheet(BuildContext context, OutViewModel viewModel) {
