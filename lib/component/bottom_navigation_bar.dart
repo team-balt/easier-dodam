@@ -1,62 +1,90 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class BottomNavBarExample extends StatefulWidget {
-  @override
-  _BottomNavBarExampleState createState() => _BottomNavBarExampleState();
-}
+class CustomBottomNavigationBar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemTapped;
 
-class _BottomNavBarExampleState extends State<BottomNavBarExample> {
-  int _selectedIndex = 0;
-
-  final List<String> _icons = [
-    'assets/img/Bed.svg',
-    'assets/img/door_open.svg',
-    'assets/img/gear.svg',
-    'assets/img/moon_plus.svg',
-  ];
-
-  final List<String> _labels = ['Bed', 'Door', 'Settings', 'Moon'];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  const CustomBottomNavigationBar({
+    Key? key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Bottom Navigation Example')),
-      body: Center(
-        child: Text(
-          'Selected: ${_labels[_selectedIndex]}',
-          style: TextStyle(fontSize: 24),
-        ),
+    return Container(
+      height: 63,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade100,
+            blurRadius: 10,
+            offset: Offset(0, -15),
+          ),
+        ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: List.generate(_icons.length, (index) {
-          return BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _icons[index],
-              width: 24,
-              height: 24,
-            ),
-            label: _labels[index],
-          );
-        }),
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildNavItem(
+            context,
+            icon: 'assets/img/Bed.svg',
+            label: '외박',
+            index: 0,
+          ),
+          _buildNavItem(
+            context,
+            icon: 'assets/img/door_open.svg',
+            label: '외출',
+            index: 1,
+          ),
+          _buildNavItem(
+            context,
+            icon: 'assets/img/moon_plus.svg',
+            label: '심야자습',
+            index: 3,
+          ),
+          _buildNavItem(
+            context,
+            icon: 'assets/img/gear.svg',
+            label: '설정',
+            index: 2,
+          ),
+
+        ],
       ),
     );
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: BottomNavBarExample(),
-  ));
+  Widget _buildNavItem(BuildContext context,
+      {required String icon, required String label, required int index}) {
+    final isSelected = index == selectedIndex;
+
+    return GestureDetector(
+      onTap: () => onItemTapped(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            icon,
+            height: isSelected ? 30 : 24,
+            width: isSelected ? 30 : 24,
+            color: isSelected ? Colors.blue : Colors.grey,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.blue : Colors.grey,
+              fontSize: isSelected ? 14 : 12,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

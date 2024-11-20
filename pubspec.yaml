@@ -69,7 +69,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/img/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -95,10 +96,7 @@ flutter:
           weight: 600
         - asset: assets/fonts/pretendard_bold.ttf
           weight: 700
-        - asset: assets/img/Bed.svg
-        - asset: assets/img/door_open.svg
-        - asset: assets/img/gear.svg
-        - asset: assets/img/moon_plus.svg
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
