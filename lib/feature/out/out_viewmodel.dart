@@ -11,6 +11,9 @@ import '../../remote/out/out_data_source.dart';
 class OutViewModel with ChangeNotifier {
   late final OutDataSource _outDataSource;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   List<OutEntity> _outEntities = List.empty();
   List<OutEntity> get outEntities => _outEntities;
 
@@ -40,7 +43,9 @@ class OutViewModel with ChangeNotifier {
   }
 
   Future<void> getMyOuts() async {
+    setIsLoading(true);
     final outs = await _outDataSource.getMyOuts();
+    setIsLoading(false);
     _outResponses = outs;
     notifyListeners();
   }
@@ -49,6 +54,11 @@ class OutViewModel with ChangeNotifier {
     print("delete start");
     await _outDataSource.deleteMyOut(id);
     _outResponses.removeWhere((data) => data.id == id);
+    notifyListeners();
+  }
+
+  void setIsLoading(bool isLoading) {
+    _isLoading = isLoading;
     notifyListeners();
   }
 

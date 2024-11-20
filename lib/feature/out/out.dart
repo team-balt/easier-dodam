@@ -86,8 +86,16 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "현재 신청된 외출",
+                          viewModel.isLoading ? "" : "현재 신청된 외출",
                           style: EasierDodamStyles.body1,
+                        ),
+                        _loading(viewModel.isLoading),
+                        _notExitsOut(
+                          viewModel.outResponses.isEmpty &&
+                              !viewModel.isLoading,
+                          () {
+                            viewModel.getMyOuts();
+                          },
                         ),
                         ...viewModel.outResponses
                             .map((item) => Column(
@@ -120,6 +128,94 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
         );
       },
     );
+  }
+
+  Widget _loading(bool isLoading) {
+    if (isLoading) {
+      return Center(
+        child: Container(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(
+            backgroundColor: EasierDodamColors.staticWhite,
+            color: EasierDodamColors.primary300,
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+
+  Widget _notExitsOut(bool isExit, Function() onClick) {
+    if (isExit) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 0,
+              blurRadius: 4,
+              offset: const Offset(0, 4), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 12,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: Image.asset("assets/images/ic_happy.png"),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                "현재 신청된 외출이 없어요",
+                style: EasierDodamStyles.label1,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Material(
+                color: EasierDodamColors.staticWhite,
+                child: InkWell(
+                  onTap: onClick,
+                  child: Container(
+                    width: double.infinity,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      border: const Border.fromBorderSide(
+                        BorderSide(
+                            width: 1.0, color: EasierDodamColors.gray500),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "새로고침",
+                        style: EasierDodamStyles.label1,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
   }
 
   Widget _bottomSheet(BuildContext context, OutViewModel viewModel) {
