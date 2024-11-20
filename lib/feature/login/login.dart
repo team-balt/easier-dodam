@@ -30,8 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: ChangeNotifierProvider(
-          create: (_) => LoginViewModel(),
-          child: Consumer<LoginViewModel>(
+          create: (_) => LoginViewmodel(),
+          child: Consumer<LoginViewmodel>(
             builder: (context, provider, child) {
               // testState = provider.testState;
               return Container(
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _pwTextFieldController,
                     ),
                     Expanded(child: SizedBox()),
-                    Text(context.watch<LoginViewModel>().testState),
+                    Text(context.watch<LoginViewmodel>().testState),
                     SizedBox(
                       width: double.infinity,
                       height: 56.0,
