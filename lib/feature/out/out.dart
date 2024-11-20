@@ -72,36 +72,47 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
             ),
           ),
           body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                return viewModel.getMyOuts();
+              },
+              color: EasierDodamColors.primary300,
+              backgroundColor: EasierDodamColors.staticWhite,
+              child: Stack(
                 children: [
-                  Text(
-                    "현재 신청된 외출",
-                    style: EasierDodamStyles.body1,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: ListView(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "현재 신청된 외출",
+                          style: EasierDodamStyles.body1,
+                        ),
+                        ...viewModel.outResponses
+                            .map((item) => Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 12,
+                                    ),
+                                    OutItem(
+                                      tagType: switch (item.status) {
+                                        OutStatus.ALLOWED => TagType.APPROVE,
+                                        OutStatus.PENDING => TagType.PENDING,
+                                        OutStatus.REJECTED => TagType.REJECT,
+                                      },
+                                      onClickTrash: () {
+                                        viewModel.deleteMyOut(item.id);
+                                      },
+                                      startAt: item.startAt.timeOfDay,
+                                      endAt: item.endAt.timeOfDay,
+                                    ),
+                                  ],
+                                ))
+                            .toList(),
+                      ],
+                    ),
                   ),
-                  ...viewModel.outResponses
-                      .map((item) => Column(
-                            children: [
-                              SizedBox(
-                                height: 12,
-                              ),
-                              OutItem(
-                                tagType: switch (item.status) {
-                                  OutStatus.ALLOWED => TagType.APPROVE,
-                                  OutStatus.PENDING => TagType.PENDING,
-                                  OutStatus.REJECTED => TagType.REJECT,
-                                },
-                                onClickTrash: () {
-                                  viewModel.deleteMyOut(item.id);
-                                },
-                                startAt: item.startAt.timeOfDay,
-                                endAt: item.endAt.timeOfDay,
-                              ),
-                            ],
-                          ))
-                      .toList(),
                 ],
               ),
             ),
@@ -136,8 +147,8 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                     (data) => OutPresetItem(
                       title: data.title,
                       reason: data.reason,
-                      startAt: data.startAt.toString(),
-                      endAt: data.endAt.toString(),
+                      startAt: "${data.startAt.hour}시 ${data.startAt.minute}분",
+                      endAt: "${data.endAt.hour}시 ${data.endAt.minute}분",
                       onTrashClick: () {
                         viewModel.removeEntity(data.id ?? 0);
                       },
@@ -158,33 +169,36 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
               SizedBox(
                 height: 8,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    outCreateRoute,
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Image.asset(
-                          "assets/images/ic_plus.png",
-                          color: EasierDodamColors.gray700,
+              Material(
+                color: EasierDodamColors.staticWhite,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      outCreateRoute,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Image.asset(
+                            "assets/images/ic_plus.png",
+                            color: EasierDodamColors.gray700,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "새로운 프리셋 만들기",
-                        style: EasierDodamStyles.body2,
-                      ),
-                    ],
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "새로운 프리셋 만들기",
+                          style: EasierDodamStyles.body2,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )

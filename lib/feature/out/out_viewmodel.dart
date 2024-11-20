@@ -39,7 +39,7 @@ class OutViewModel with ChangeNotifier {
     await database.outDao.deleteOutEntityById(id);
   }
 
-  void getMyOuts() async {
+  Future<void> getMyOuts() async {
     final outs = await _outDataSource.getMyOuts();
     _outResponses = outs;
     notifyListeners();
@@ -59,6 +59,7 @@ class OutViewModel with ChangeNotifier {
       timeOfDayToDateTime(outEntity.endAt),
     );
 
+    getMyOuts();
     return true;
   }
 

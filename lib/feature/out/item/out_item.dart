@@ -1,5 +1,6 @@
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
+import 'package:easier_dodam/utiles/utile.dart';
 import 'package:flutter/material.dart';
 
 enum TagType { PENDING, APPROVE, REJECT }
@@ -22,6 +23,9 @@ class OutItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hour = timeOfDayDifference(TimeOfDay.now(), endAt) ~/ 60;
+    final minute = timeOfDayDifference(TimeOfDay.now(), endAt) % 60;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -31,7 +35,7 @@ class OutItem extends StatelessWidget {
             color: Colors.black.withOpacity(0.08),
             spreadRadius: 0,
             blurRadius: 4,
-            offset: Offset(0, 4), // changes position of shadow
+            offset: const Offset(0, 4), // changes position of shadow
           ),
         ],
       ),
@@ -58,7 +62,7 @@ class OutItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 4.0,
                       horizontal: 10.0,
                     ),
@@ -75,12 +79,15 @@ class OutItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: onClickTrash,
-                  child: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: Image.asset("assets/images/ic_trash.png"),
+                Material(
+                  color: EasierDodamColors.staticWhite,
+                  child: InkWell(
+                    onTap: onClickTrash,
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Image.asset("assets/images/ic_trash.png"),
+                    ),
                   ),
                 )
               ],
@@ -92,7 +99,7 @@ class OutItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  "3시간",
+                  hour > 0 ? "$hour시간" : "$minute분",
                   style: EasierDodamStyles.label2,
                 ),
                 SizedBox(
@@ -126,7 +133,7 @@ class OutItem extends StatelessWidget {
                       width: 2,
                     ),
                     Text(
-                      "18시 30분",
+                      "${startAt.hour}시 ${startAt.minute}분",
                       style: EasierDodamStyles.label2,
                     ),
                   ],
@@ -144,7 +151,7 @@ class OutItem extends StatelessWidget {
                       width: 2,
                     ),
                     Text(
-                      "18시 30분",
+                      "${endAt.hour}시 ${endAt.minute}분",
                       style: EasierDodamStyles.label2,
                     ),
                   ],
