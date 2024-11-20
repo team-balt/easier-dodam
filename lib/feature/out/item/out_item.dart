@@ -92,6 +92,9 @@ class OutItem extends StatelessWidget {
                   "3시간",
                   style: EasierDodamStyles.label2,
                 ),
+                SizedBox(
+                  width: 2,
+                ),
                 Text(
                   "남음",
                   style: EasierDodamStyles.label2.copyWith(

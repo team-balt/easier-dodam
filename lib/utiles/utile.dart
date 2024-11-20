@@ -10,3 +10,9 @@ int timeOfDayDifference(TimeOfDay start, TimeOfDay end) {
   // 차이를 Duration으로 변환
   return differenceInMinutes;
 }
+
+extension DateTimeToTimeOfDay on DateTime {
+  TimeOfDay get timeOfDay {
+    return TimeOfDay.fromDateTime(this);
+  }
+}

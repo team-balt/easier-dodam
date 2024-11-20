@@ -5,6 +5,8 @@ import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/out/item/out_item.dart';
 import 'package:easier_dodam/feature/out/out_viewmodel.dart';
 import 'package:easier_dodam/feature/out_create/out_create_navigation.dart';
+import 'package:easier_dodam/remote/out/response/out_response.dart';
+import 'package:easier_dodam/utiles/utile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,84 +19,93 @@ class OutScreen extends StatefulWidget {
   State<OutScreen> createState() => _OutScreenState();
 }
 
-class _OutScreenState extends State<OutScreen> {
+class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      final viewModel = Provider.of<OutViewModel>(context, listen: false);
+      viewModel.getMyOuts();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => OutViewModel(),
-      child: Consumer<OutViewModel>(
-        builder: (BuildContext context, OutViewModel viewModel, Widget? child) {
-          return Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(60),
-              child: EasierDodamDefaultAppbar(
-                title: "외출",
-                onPlusClick: () {
-                  print("log");
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return ChangeNotifierProvider.value(
-                        value: viewModel,
-                        child: Consumer<OutViewModel>(
-                          builder: (
-                            BuildContext context,
-                            OutViewModel value,
-                            Widget? child,
-                          ) {
-                            return _bottomSheet(context, viewModel);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
+    return Consumer<OutViewModel>(
+      builder: (BuildContext context, OutViewModel viewModel, Widget? child) {
+        return Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60),
+            child: EasierDodamDefaultAppbar(
+              title: "외출",
+              onPlusClick: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return ChangeNotifierProvider.value(
+                      value: viewModel,
+                      child: Consumer<OutViewModel>(
+                        builder: (
+                          BuildContext context,
+                          OutViewModel value,
+                          Widget? child,
+                        ) {
+                          return _bottomSheet(context, viewModel);
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "현재 신청된 외출",
+                    style: EasierDodamStyles.body1,
+                  ),
+                  ...viewModel.outResponses
+                      .map((item) => Column(
+                            children: [
+                              SizedBox(
+                                height: 12,
+                              ),
+                              OutItem(
+                                tagType: switch (item.status) {
+                                  OutStatus.ALLOWED => TagType.APPROVE,
+                                  OutStatus.PENDING => TagType.PENDING,
+                                  OutStatus.REJECTED => TagType.REJECT,
+                                },
+                                onClickTrash: () {},
+                                startAt: item.startAt.timeOfDay,
+                                endAt: item.endAt.timeOfDay,
+                              ),
+                            ],
+                          ))
+                      .toList(),
+                ],
               ),
             ),
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "현재 신청된 외출",
-                      style: EasierDodamStyles.body1,
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    OutItem(
-                      tagType: TagType.APPROVE,
-                      onClickTrash: () {},
-                      startAt: TimeOfDay.now(),
-                      endAt: TimeOfDay.now(),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    OutItem(
-                      tagType: TagType.PENDING,
-                      onClickTrash: () {},
-                      startAt: TimeOfDay.now(),
-                      endAt: TimeOfDay.now(),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    OutItem(
-                      tagType: TagType.REJECT,
-                      onClickTrash: () {},
-                      startAt: TimeOfDay.now(),
-                      endAt: TimeOfDay.now(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

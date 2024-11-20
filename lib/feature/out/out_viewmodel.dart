@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easier_dodam/local/database_manager.dart';
 import 'package:easier_dodam/local/entity/out_entity.dart';
+import 'package:easier_dodam/remote/out/response/out_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +14,21 @@ class OutViewModel with ChangeNotifier {
   List<OutEntity> _outEntities = List.empty();
   List<OutEntity> get outEntities => _outEntities;
 
-  StreamSubscription<List<OutEntity>>? _subscription;
+  List<OutResponse> _outResponses = List.empty();
+  List<OutResponse> get outResponses => _outResponses;
+
+  StreamSubscription<List<OutEntity>>? _localSubscription;
 
   OutViewModel() {
     _outDataSource = OutDataSource();
+    getMyOuts();
     _getOutEntities();
   }
 
   void _getOutEntities() async {
     final database = await DatabaseManager.getDatabase();
-    _subscription = database.outDao.findAllEntitiesWithStream().listen((data) {
+    _localSubscription =
+        database.outDao.findAllEntitiesWithStream().listen((data) {
       _outEntities = data;
       notifyListeners();
     });
@@ -31,6 +37,12 @@ class OutViewModel with ChangeNotifier {
   void removeEntity(int id) async {
     final database = await DatabaseManager.getDatabase();
     await database.outDao.deleteOutEntityById(id);
+  }
+
+  void getMyOuts() async {
+    final outs = await _outDataSource.getMyOuts();
+    _outResponses = outs;
+    notifyListeners();
   }
 
   Future<bool> requestOut(OutEntity outEntity) async {
@@ -45,7 +57,7 @@ class OutViewModel with ChangeNotifier {
 
   @override
   void dispose() {
-    _subscription?.cancel();
+    _localSubscription?.cancel();
     super.dispose();
   }
 }
