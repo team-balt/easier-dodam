@@ -88,9 +88,10 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: EasierDodamBottomNavigationBar(
+      bottomNavigationBar: SafeArea(child: EasierDodamBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+      ),
       ),
     );
   }
