@@ -92,6 +92,9 @@ class OutItem extends StatelessWidget {
                   "3시간",
                   style: EasierDodamStyles.label2,
                 ),
+                SizedBox(
+                  width: 2,
+                ),
                 Text(
                   "남음",
                   style: EasierDodamStyles.label2.copyWith(
@@ -150,15 +153,4 @@ class OutItem extends StatelessWidget {
       ),
     );
   }
-}
-
-Duration timeOfDayDifference(TimeOfDay start, TimeOfDay end) {
-  final startMinutes = start.hour * 60 + start.minute;
-  final endMinutes = end.hour * 60 + end.minute;
-
-  // 차이를 계산
-  final differenceInMinutes = endMinutes - startMinutes;
-
-  // 차이를 Duration으로 변환
-  return Duration(minutes: differenceInMinutes);
 }
