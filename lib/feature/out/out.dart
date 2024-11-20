@@ -3,6 +3,7 @@ import 'package:easier_dodam/component/modal_bottom_sheet_container.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/out/item/out_item.dart';
+import 'package:easier_dodam/feature/out_create/out_create_navigation.dart';
 import 'package:flutter/material.dart';
 
 import 'item/out_preset_item.dart';
@@ -34,6 +35,7 @@ class _OutScreenState extends State<OutScreen> {
                     ),
                     child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -56,26 +58,34 @@ class _OutScreenState extends State<OutScreen> {
                           SizedBox(
                             height: 8,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: Image.asset(
-                                    "assets/images/ic_plus.png",
-                                    color: EasierDodamColors.gray700,
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                outCreateRoute,
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: Image.asset(
+                                      "assets/images/ic_plus.png",
+                                      color: EasierDodamColors.gray700,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  "새로운 프리셋 만들기",
-                                  style: EasierDodamStyles.body2,
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    "새로운 프리셋 만들기",
+                                    style: EasierDodamStyles.body2,
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         ],

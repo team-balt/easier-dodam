@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Pretendard",
         scaffoldBackgroundColor: EasierDodamColors.staticWhite,
       ),
-      initialRoute: outCreateRoute,
+      initialRoute: outRoute,
       routes: {
         loginRoute: (context) => LoginScreen(),
         outRoute: (context) => OutScreen(),
