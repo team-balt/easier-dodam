@@ -202,8 +202,14 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
     }
   }
 
-  List<Widget> _outItemsView(List<OutResponse> items, bool isLoading,
-      Function(OutResponse) onClickTrash) {
+  List<Widget> _outItemsView(
+    List<OutResponse> items,
+    bool isLoading,
+    Function(OutResponse) onClickTrash,
+  ) {
+    if (isLoading) {
+      return List.empty();
+    }
     return items
         .map((item) => Column(
               children: [

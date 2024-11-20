@@ -51,9 +51,10 @@ class OutViewModel with ChangeNotifier {
   }
 
   void deleteMyOut(int id) async {
-    print("delete start");
+    setIsLoading(true);
     await _outDataSource.deleteMyOut(id);
     _outResponses.removeWhere((data) => data.id == id);
+    setIsLoading(false);
     notifyListeners();
   }
 
