@@ -33,20 +33,19 @@ class EasierDodamDefaultPresetAppbar extends StatelessWidget {
                       height: 24,
                       child: Image.asset(
                         "assets/images/ic_arrow_left.png",
-                        color: EasierDodamColors.gray600,
+                        color: EasierDodamColors.staticBlack,
                       ),
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                width: 12,
+                width: 4,
               ),
               Text(
                 title,
                 style: EasierDodamStyles.title1,
               ),
-              Expanded(child: SizedBox()),
             ],
           ),
         ),
