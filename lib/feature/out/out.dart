@@ -72,34 +72,39 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
             ),
           ),
           body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                return viewModel.getMyOuts();
+              },
+              color: EasierDodamColors.primary300,
+              backgroundColor: EasierDodamColors.staticWhite,
+              child: Stack(
                 children: [
-                  Text(
-                    "현재 신청된 외출",
-                    style: EasierDodamStyles.body1,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: ListView(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          viewModel.isLoading ? "" : "현재 신청된 외출",
+                          style: EasierDodamStyles.body1,
+                        ),
+                        _loading(viewModel.isLoading),
+                        _notExitsOut(
+                          viewModel.outResponses.isEmpty &&
+                              !viewModel.isLoading,
+                          () {
+                            viewModel.getMyOuts();
+                          },
+                        ),
+                        ..._outItemsView(
+                          viewModel.outResponses,
+                          viewModel.isLoading,
+                          (item) => {viewModel.deleteMyOut(item.id)},
+                        ),
+                      ],
+                    ),
                   ),
-                  ...viewModel.outResponses
-                      .map((item) => Column(
-                            children: [
-                              SizedBox(
-                                height: 12,
-                              ),
-                              OutItem(
-                                tagType: switch (item.status) {
-                                  OutStatus.ALLOWED => TagType.APPROVE,
-                                  OutStatus.PENDING => TagType.PENDING,
-                                  OutStatus.REJECTED => TagType.REJECT,
-                                },
-                                onClickTrash: () {},
-                                startAt: item.startAt.timeOfDay,
-                                endAt: item.endAt.timeOfDay,
-                              ),
-                            ],
-                          ))
-                      .toList(),
                 ],
               ),
             ),
@@ -107,6 +112,125 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
         );
       },
     );
+  }
+
+  Widget _loading(bool isLoading) {
+    if (isLoading) {
+      return Center(
+        child: Container(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(
+            backgroundColor: EasierDodamColors.staticWhite,
+            color: EasierDodamColors.primary300,
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+
+  Widget _notExitsOut(bool isExit, Function() onClick) {
+    if (isExit) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 0,
+              blurRadius: 4,
+              offset: const Offset(0, 4), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 12,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: Image.asset("assets/images/ic_happy.png"),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                "현재 신청된 외출이 없어요",
+                style: EasierDodamStyles.label1,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Material(
+                color: EasierDodamColors.staticWhite,
+                child: InkWell(
+                  onTap: onClick,
+                  child: Container(
+                    width: double.infinity,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      border: const Border.fromBorderSide(
+                        BorderSide(
+                            width: 1.0, color: EasierDodamColors.gray500),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "새로고침",
+                        style: EasierDodamStyles.label1,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+
+  List<Widget> _outItemsView(
+    List<OutResponse> items,
+    bool isLoading,
+    Function(OutResponse) onClickTrash,
+  ) {
+    if (isLoading) {
+      return List.empty();
+    }
+    return items
+        .map((item) => Column(
+              children: [
+                SizedBox(
+                  height: 12,
+                ),
+                OutItem(
+                  tagType: switch (item.status) {
+                    OutStatus.ALLOWED => TagType.APPROVE,
+                    OutStatus.PENDING => TagType.PENDING,
+                    OutStatus.REJECTED => TagType.REJECT,
+                  },
+                  onClickTrash: () {
+                    onClickTrash(item);
+                  },
+                  startAt: item.startAt.timeOfDay,
+                  endAt: item.endAt.timeOfDay,
+                ),
+              ],
+            ))
+        .toList();
   }
 
   Widget _bottomSheet(BuildContext context, OutViewModel viewModel) {
@@ -134,8 +258,8 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                     (data) => OutPresetItem(
                       title: data.title,
                       reason: data.reason,
-                      startAt: data.startAt.toString(),
-                      endAt: data.endAt.toString(),
+                      startAt: "${data.startAt.hour}시 ${data.startAt.minute}분",
+                      endAt: "${data.endAt.hour}시 ${data.endAt.minute}분",
                       onTrashClick: () {
                         viewModel.removeEntity(data.id ?? 0);
                       },
@@ -156,33 +280,36 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
               SizedBox(
                 height: 8,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    outCreateRoute,
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Image.asset(
-                          "assets/images/ic_plus.png",
-                          color: EasierDodamColors.gray700,
+              Material(
+                color: EasierDodamColors.staticWhite,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      outCreateRoute,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Image.asset(
+                            "assets/images/ic_plus.png",
+                            color: EasierDodamColors.gray700,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "새로운 프리셋 만들기",
-                        style: EasierDodamStyles.body2,
-                      ),
-                    ],
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "새로운 프리셋 만들기",
+                          style: EasierDodamStyles.body2,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )

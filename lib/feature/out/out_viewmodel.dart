@@ -11,6 +11,9 @@ import '../../remote/out/out_data_source.dart';
 class OutViewModel with ChangeNotifier {
   late final OutDataSource _outDataSource;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   List<OutEntity> _outEntities = List.empty();
   List<OutEntity> get outEntities => _outEntities;
 
@@ -39,9 +42,24 @@ class OutViewModel with ChangeNotifier {
     await database.outDao.deleteOutEntityById(id);
   }
 
-  void getMyOuts() async {
+  Future<void> getMyOuts() async {
+    setIsLoading(true);
     final outs = await _outDataSource.getMyOuts();
+    setIsLoading(false);
     _outResponses = outs;
+    notifyListeners();
+  }
+
+  void deleteMyOut(int id) async {
+    setIsLoading(true);
+    await _outDataSource.deleteMyOut(id);
+    _outResponses.removeWhere((data) => data.id == id);
+    setIsLoading(false);
+    notifyListeners();
+  }
+
+  void setIsLoading(bool isLoading) {
+    _isLoading = isLoading;
     notifyListeners();
   }
 
@@ -52,6 +70,7 @@ class OutViewModel with ChangeNotifier {
       timeOfDayToDateTime(outEntity.endAt),
     );
 
+    getMyOuts();
     return true;
   }
 

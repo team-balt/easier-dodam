@@ -10,7 +10,7 @@ class LoginViewmodel with ChangeNotifier {
   String _testState = "";
   String get testState => _testState;
 
-  LoginViewModel() {
+  LoginViewmodel() {
     _loginDataSource = LoginDataSource();
   }
 
