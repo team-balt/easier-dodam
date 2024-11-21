@@ -73,14 +73,58 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 23),
                     Text(
                       "현재 신청된 심자",
                       style: EasierDodamStyles.body1,
                       textAlign: TextAlign.start,
                     ),
-                    SizedBox(),
-                    // You can add more content here
+                    SizedBox(
+                      height: 12,
+                      width: double.infinity,
+                    ),
+                    Container(
+                      //프레임 시작
+                      decoration: BoxDecoration(
+                        color: EasierDodamColors.staticWhite,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            spreadRadius: 0,
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                          )
+                        ]
+                      ),
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      height: 106,
+                      width: 380,
+                      child: Column(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 8,
+                            width: 12,
+                          ),
+                          Container(//수락됨
+                            height: 24,
+                            width: 52,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "수락됨",
+                              style: EasierDodamStyles.label1.copyWith(
+                                  color: EasierDodamColors.staticWhite
+                              ).copyWith(fontSize: 12)
+                            ),
+                            decoration: BoxDecoration(
+                              color: EasierDodamColors.primary300,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    )
                   ],
                 ),
               );
@@ -88,7 +132,8 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: SafeArea(child: EasierDodamBottomNavigationBar(
+      bottomNavigationBar: SafeArea(
+        child: EasierDodamBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),
