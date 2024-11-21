@@ -10,6 +10,7 @@ class CoreClient {
     required String url,
     Map<String, dynamic>? body,
     T Function(Map<String, dynamic>)? decoder,
+    T Function(List<dynamic>)? listDecoder,
     bool sendToken = true,
   }) async {
     final headers = {
@@ -30,12 +31,17 @@ class CoreClient {
 
     final Map<String, dynamic> decodeJson = jsonDecode(response.body);
 
-    return BaseResponse.fromJsons(decodeJson, decoder);
+    return BaseResponse.fromJsons(
+      decodeJson,
+      decoder,
+      fromJsonList: listDecoder,
+    );
   }
 
   static Future<BaseResponse<T>> get<T>({
     required String url,
     T Function(Map<String, dynamic>)? decoder,
+    T Function(List<dynamic>)? listDecoder,
     bool sendToken = true,
   }) async {
     final headers = {
@@ -55,6 +61,42 @@ class CoreClient {
 
     final Map<String, dynamic> decodeJson = jsonDecode(response.body);
 
-    return BaseResponse.fromJsons(decodeJson, decoder);
+    return BaseResponse.fromJsons(
+      decodeJson,
+      decoder,
+      fromJsonList: listDecoder,
+    );
+  }
+
+  static Future<BaseResponse<T>> delete<T>({
+    required String url,
+    Map<String, dynamic>? body,
+    T Function(Map<String, dynamic>)? decoder,
+    T Function(List<dynamic>)? listDecoder,
+    bool sendToken = true,
+  }) async {
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+    if (sendToken) {
+      headers["Authorization"] =
+          "Bearer ${await StorageManager.getUserAccessToken() ?? ""}";
+    }
+
+    final response = await http.delete(
+      Uri.parse(url),
+      body: json.encode(body),
+      headers: headers,
+    );
+
+    print(response.body);
+
+    final Map<String, dynamic> decodeJson = jsonDecode(response.body);
+
+    return BaseResponse.fromJsons(
+      decodeJson,
+      decoder,
+      fromJsonList: listDecoder,
+    );
   }
 }
