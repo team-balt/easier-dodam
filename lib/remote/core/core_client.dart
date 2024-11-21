@@ -155,6 +155,7 @@ class CoreClient {
     _isRefresh = true;
     final tokenDto = await StorageManager.getUserToken();
     if (tokenDto.refreshToken == null) {
+      _isRefresh = false;
       throw Exception("Not Find Refresh Token");
     }
 
