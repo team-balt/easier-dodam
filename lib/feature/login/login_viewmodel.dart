@@ -22,7 +22,10 @@ class LoginViewmodel with ChangeNotifier {
     final BaseResponse<LoginResponse> response =
         await _loginDataSource.login(id, pw);
     await StorageManager.saveUserAccount(id: id, pw: pw);
-    await StorageManager.saveUserAccessToken(response.data.accessToken);
+    await StorageManager.saveUserToken(
+      response.data.accessToken,
+      response.data.refreshToken,
+    );
     _testState =
         "발급된 계정 토큰\naccessToken: ${response.data.accessToken}\nrefreshToken: ${response.data.refreshToken}";
     notifyListeners();
