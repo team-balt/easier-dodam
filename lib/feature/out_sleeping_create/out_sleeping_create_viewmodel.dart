@@ -12,9 +12,6 @@ class OutSleepingCreateViewModel with ChangeNotifier {
     final database = await DatabaseManager.getDatabase();
     await database.outSleepingDao.insertOutSleepingEntity(OutSleepingEntity(
         title: title, reason: reason, startAt: startDate, endAt: endDate));
-
-    print(await database.outSleepingDao.findAllEntities());
-
     return true;
   }
 }
