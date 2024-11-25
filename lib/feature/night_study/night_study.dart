@@ -3,7 +3,7 @@ import 'package:easier_dodam/component/bottom_navigation_bar.dart';
 import 'package:easier_dodam/component/modal_bottom_sheet_container.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
-import 'package:easier_dodam/feature/night_study/item/night_study_present_item.dart';
+import 'package:easier_dodam/feature/night_study/item/night_study_preset_item.dart';
 import 'package:easier_dodam/feature/night_study/night_study_create/night_study_create_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +64,25 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
           preferredSize: Size.fromHeight(60),
           child: EasierDodamDefaultAppbar(
             title: '심자',
-            onPlusClick: () => _onPlusClick(context),
+            onPlusClick: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return ChangeNotifierProvider.value(
+                    value: viewModel,
+                    child: Consumer<NightStudyViewmodel>(
+                      builder: (
+                          BuildContext context,
+                          NightStudyViewmodel value,
+                          Widget? child,
+                          ) {
+                        return _bottomWidget(context, viewModel);
+                      },
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ),
         body: SafeArea(
@@ -172,7 +190,7 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
               ),
               ...viewModel.nightStudyEntities
                   .map(
-                    (data) => NightStudyPresentItem(
+                    (data) => NightStudyPresetItem(
                       presetTitle: data.title,
                       reason: data.reason,
                       place: data.place,
@@ -190,6 +208,16 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                     ),
               )
                   .toList(),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(
+                height: 1,
+                color: EasierDodamColors.gray600,
+              ),
+              SizedBox(
+                height: 8,
+              ),
               Material( //프리셋 생성 시작
                 color: EasierDodamColors.staticWhite,
                 child: InkWell(

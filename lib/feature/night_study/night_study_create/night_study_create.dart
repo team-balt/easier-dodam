@@ -7,7 +7,6 @@ import '../../../component/textfield.dart';
 import '../../../component/theme/color.dart';
 import '../../../component/theme/style.dart';
 import '../item/night_study_item.dart';
-import '../item/night_study_present_item.dart';
 import 'item/night_study_create_time_item.dart';
 
 class NightStudyCreateScreen extends StatefulWidget {
@@ -205,7 +204,9 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(
+                        height: 8
+                    ),
                   ],
                 ),
               ),

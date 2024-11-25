@@ -18,8 +18,8 @@ class NightStudyViewmodel with ChangeNotifier {
   List<NightStudyEntity> _nightStudyEntities = List.empty();
   List<NightStudyEntity> get nightStudyEntities => _nightStudyEntities;
 
-  List<NightStudyEntity> _nightStudyResponses = List.empty();
-  List<NightStudyEntity> get nightStudyResponses => _nightStudyResponses;
+  List<NightStudyResponse> _nightStudyResponses = List.empty();
+  List<NightStudyResponse> get nightStudyResponses => _nightStudyResponses;
 
   StreamSubscription<List<NightStudyEntity>>? _nightStudyStreamSubscription;
 
@@ -31,7 +31,7 @@ class NightStudyViewmodel with ChangeNotifier {
   void _getNightStudyEntities() async {
     final database = await DatabaseManager.getDatabase();
     _nightStudyStreamSubscription = database.nightStudyDao.findAllEntitiesWithStream().listen((data) {
-      _nightStudyResponses = data;
+      _nightStudyEntities = data;
       notifyListeners();
     });
   }
@@ -39,6 +39,14 @@ class NightStudyViewmodel with ChangeNotifier {
   void removeEntity(int id) async {
     final database = await DatabaseManager.getDatabase();
     await database.nightStudyDao.deleteNightStudyEntityById(id);
+  }
+
+  Future<void> getMyNightStudies() async {
+    setIsLoading(true);
+    final nightStudies = await _nightStudyDataSource.getMyNightStudies();
+    setIsLoading(false);
+    _nightStudyResponses = nightStudies;
+    notifyListeners();
   }
 
   Future<bool> nightStudy(NightStudyEntity nightStudyEntity) async {
@@ -54,6 +62,11 @@ class NightStudyViewmodel with ChangeNotifier {
         );
     notifyListeners();
     return true;
+  }
+
+  void setIsLoading(bool isLoading) {
+    _isLoading = isLoading;
+    notifyListeners();
   }
 
   @override

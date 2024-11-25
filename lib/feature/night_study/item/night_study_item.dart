@@ -6,16 +6,16 @@ import '../../../component/theme/style.dart';
 import '../../../utiles/utile.dart';
 
 enum TagType { PENDING, APPROVE, REJECT }
-enum PlaceType { PROGRAM1, PROGRAM2, PROGRAM3 }
+enum PlaceType { PROGRAMMING_1, PROGRAMMING_2, PROGRAMMING_3 }
 
 extension PlaceTypeExtension on PlaceType {
   String get name {
     switch (this) {
-      case PlaceType.PROGRAM1:
+      case PlaceType.PROGRAMMING_1:
         return "프로그래밍 1실";
-      case PlaceType.PROGRAM2:
+      case PlaceType.PROGRAMMING_2:
         return "프로그래밍 2실";
-      case PlaceType.PROGRAM3:
+      case PlaceType.PROGRAMMING_3:
         return "프로그래밍 3실";
     }
   }

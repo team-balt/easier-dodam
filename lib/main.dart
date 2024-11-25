@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
           create: (_) => NightStudyViewmodel(),
           child: NightStudyScreen(),
         ),
+        loginRoute: (context) => LoginScreen(),
         outRoute: (context) => ChangeNotifierProvider(
           create: (_) => OutViewModel(),
           child: OutScreen(),
@@ -51,10 +52,7 @@ class MyApp extends StatelessWidget {
         "test": (context) => Scaffold(
           body: Text("test"),
         ),
-        nightStudyCreateRoute: (context) => ChangeNotifierProvider(
-          create: (_) => NightStudyViewmodel(),
-          child: NightStudyCreateScreen(),
-        ),
+        nightStudyCreateRoute: (context) => NightStudyCreateScreen(),
       },
     );
   }
