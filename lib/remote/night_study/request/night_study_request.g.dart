@@ -27,7 +27,7 @@ Map<String, dynamic> _$NightStudyRequestToJson(NightStudyRequest instance) =>
     };
 
 const _$PlaceTypeEnumMap = {
-  PlaceType.PROGRAMMING_1: 'PROGRAM1',
-  PlaceType.PROGRAMMING_2: 'PROGRAM2',
-  PlaceType.PROGRAMMING_3: 'PROGRAM3',
+  PlaceType.PROGRAMMING_1: 'PROGRAMMING_1',
+  PlaceType.PROGRAMMING_2: 'PROGRAMMING_2',
+  PlaceType.PROGRAMMING_3: 'PROGRAMMING_3',
 };

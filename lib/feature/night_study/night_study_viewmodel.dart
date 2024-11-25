@@ -49,6 +49,14 @@ class NightStudyViewmodel with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteMyOut(int id) async {
+    setIsLoading(true);
+    await _nightStudyDataSource.deleteMyNightStudy(id);
+    _nightStudyResponses.removeWhere((data) => data.id == id);
+    setIsLoading(false);
+    notifyListeners();
+  }
+
   Future<bool> nightStudy(NightStudyEntity nightStudyEntity) async {
         await _nightStudyDataSource.postNightStudy(
             nightStudyEntity.title,

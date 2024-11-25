@@ -4,19 +4,21 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'night_study_response.g.dart';
 
+enum Status { ALLOWED, PENDING, REJECTED }
+
 @JsonSerializable()
 class NightStudyResponse extends BaseObject<NightStudyResponse>{
   int id;
   String content;
-  String allowCheck;
+  Status allowCheck;
   bool isPhone;
   String reason;
   StudentResponse student;
   String place;
-  String startAt;
-  String endAt;
-  String createdAt;
-  String? checkedAt;
+  DateTime startAt;
+  DateTime endAt;
+  DateTime createdAt;
+  DateTime? checkedAt;
 
   NightStudyResponse(
       {

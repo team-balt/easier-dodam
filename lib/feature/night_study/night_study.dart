@@ -3,8 +3,11 @@ import 'package:easier_dodam/component/bottom_navigation_bar.dart';
 import 'package:easier_dodam/component/modal_bottom_sheet_container.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
+import 'package:easier_dodam/feature/night_study/item/night_study_item.dart';
 import 'package:easier_dodam/feature/night_study/item/night_study_preset_item.dart';
 import 'package:easier_dodam/feature/night_study/night_study_create/night_study_create_navigation.dart';
+import 'package:easier_dodam/remote/night_study/response/night_study_response.dart';
+import 'package:easier_dodam/utiles/utile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -97,57 +100,23 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "현재 신청된 심자",
+                        viewModel.isLoading ? "" : "현재 신청된 심자",
                         style: EasierDodamStyles.body1,
                         textAlign: TextAlign.start,
                       ),
-                      SizedBox(
-                        height: 12,
-                        width: double.infinity,
+                      _loading(viewModel.isLoading),
+                      _notExitsNightStudy(
+                        viewModel.nightStudyResponses.isEmpty &&
+                            !viewModel.isLoading,
+                            () {
+                          viewModel.getMyNightStudies();
+                        },
                       ),
-                      Container(
-                        //프레임 시작
-                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                        decoration: BoxDecoration(
-                            color: EasierDodamColors.staticWhite,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.08),
-                                spreadRadius: 0,
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                              )
-                            ]),
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        height: 106,
-                        width: 380,
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 8,
-                              width: 12,
-                            ),
-                            Container(
-                              //수락됨
-                              height: 24,
-                              width: 52,
-                              alignment: Alignment.center,
-                              child: Text("수락됨",
-                                  style: EasierDodamStyles.label1
-                                      .copyWith(
-                                          color: EasierDodamColors.staticWhite)
-                                      .copyWith(fontSize: 12)),
-                              decoration: BoxDecoration(
-                                color: EasierDodamColors.primary300,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      ..._nightStudyItemsView(
+                        viewModel.nightStudyResponses,
+                        viewModel.isLoading,
+                            (item) => {viewModel.deleteMyOut(item.id)},
+                      ),
                     ],
                   ),
                 );
@@ -257,5 +226,125 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
       ),
     );
   }
+
+  Widget _loading(bool isLoading) {
+    if (isLoading) {
+      return Center(
+        child: Container(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(
+            backgroundColor: EasierDodamColors.staticWhite,
+            color: EasierDodamColors.primary300,
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+
+  Widget _notExitsNightStudy(bool isExit, Function() onClick) {
+    if (isExit) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 0,
+              blurRadius: 4,
+              offset: const Offset(0, 4), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 12,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: Image.asset("assets/images/ic_happy.png"),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                "현재 신청된 심자가 없어요",
+                style: EasierDodamStyles.label1,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Material(
+                color: EasierDodamColors.staticWhite,
+                child: InkWell(
+                  onTap: onClick,
+                  child: Container(
+                    width: double.infinity,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      border: const Border.fromBorderSide(
+                        BorderSide(
+                            width: 1.0, color: EasierDodamColors.gray500),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "새로고침",
+                        style: EasierDodamStyles.label1,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+
+  List<Widget> _nightStudyItemsView(
+      List<NightStudyResponse> items,
+      bool isLoading,
+      Function(NightStudyResponse) onClickTrash,
+      ) {
+    if (isLoading) {
+      return List.empty();
+    }
+    return items
+        .map((item) => Column(
+      children: [
+        SizedBox(
+          height: 12,
+        ),
+        NightStudyItem(
+          tagType: switch (item.allowCheck) {
+            Status.ALLOWED => TagType.APPROVE,
+            Status.PENDING => TagType.PENDING,
+            Status.REJECTED => TagType.REJECT,
+          },
+          onClickTrash: () {
+            onClickTrash(item);
+          },
+          startAt: item.startAt,
+          endAt: item.endAt,
+        ),
+      ],
+    ))
+        .toList();
+  }
+
 }
 
