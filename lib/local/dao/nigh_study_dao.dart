@@ -5,7 +5,7 @@ import '../entity/night_study_entity.dart';
 @dao
 abstract class NighStudyDao {
   @Query('SELECT * FROM $_tableName WHERE id = :id')
-  Future<NightStudyEntity?> findOutEntityById(int id);
+  Future<NightStudyEntity?> findNightStudyEntityById(int id);
 
   @Query('SELECT * FROM $_tableName')
   Future<List<NightStudyEntity>> findAllEntities();
@@ -14,7 +14,7 @@ abstract class NighStudyDao {
   Stream<List<NightStudyEntity>> findAllEntitiesWithStream();
 
   @Query('DELETE FROM $_tableName WHERE id = :id')
-  Future<void> deleteOutEntityById(int id);
+  Future<void> deleteNightStudyEntityById(int id);
 
   @insert
   Future<void> insertNightStudyEntity(NightStudyEntity nightStudyEntity);

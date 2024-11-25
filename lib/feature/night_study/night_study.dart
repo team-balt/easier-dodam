@@ -3,6 +3,7 @@ import 'package:easier_dodam/component/bottom_navigation_bar.dart';
 import 'package:easier_dodam/component/modal_bottom_sheet_container.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
+import 'package:easier_dodam/feature/night_study/item/night_study_present_item.dart';
 import 'package:easier_dodam/feature/night_study/night_study_create/night_study_create_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -169,6 +170,26 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
               SizedBox(
                 height: 8,
               ),
+              ...viewModel.nightStudyEntities
+                  .map(
+                    (data) => NightStudyPresentItem(
+                      presetTitle: data.title,
+                      reason: data.reason,
+                      place: data.place,
+                      doNeedPhone: data.doNeedPhone,
+                      phoneReason: data.reasonForPhone,
+                      startDate: "${data.startAt} ${data.startAt.minute}",
+                      endDate: "${data.endAt.hour} ${data.endAt.minute}",
+                      onTrashClick: () {
+                        viewModel.removeEntity(data.id ?? 0);
+                        },
+                      onClickCreate: () async {
+                        Navigator.pop(context);
+                        await viewModel.nightStudy(data);
+                        },
+                    ),
+              )
+                  .toList(),
               Material( //프리셋 생성 시작
                 color: EasierDodamColors.staticWhite,
                 child: InkWell(

@@ -102,7 +102,7 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `out` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `night_study` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `place` INTEGER NOT NULL, `content` TEXT NOT NULL, `doNeedPhone` INTEGER NOT NULL, `reasonForPhone` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `night_study` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `place` TEXT NOT NULL, `content` TEXT NOT NULL, `doNeedPhone` INTEGER NOT NULL, `reasonForPhone` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -248,7 +248,9 @@ class _$NighStudyDao extends NighStudyDao {
             'night_study',
             (NightStudyEntity item) => <String, Object?>{
                   'id': item.id,
-                  'place': item.place.index,
+                  'title': item.title,
+                  'reason': item.reason,
+                  'place': _placeTypeConverter.encode(item.place),
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
@@ -262,7 +264,9 @@ class _$NighStudyDao extends NighStudyDao {
             ['id'],
             (NightStudyEntity item) => <String, Object?>{
                   'id': item.id,
-                  'place': item.place.index,
+                  'title': item.title,
+                  'reason': item.reason,
+                  'place': _placeTypeConverter.encode(item.place),
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
@@ -276,7 +280,9 @@ class _$NighStudyDao extends NighStudyDao {
             ['id'],
             (NightStudyEntity item) => <String, Object?>{
                   'id': item.id,
-                  'place': item.place.index,
+                  'title': item.title,
+                  'reason': item.reason,
+                  'place': _placeTypeConverter.encode(item.place),
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
@@ -298,11 +304,13 @@ class _$NighStudyDao extends NighStudyDao {
   final DeletionAdapter<NightStudyEntity> _nightStudyEntityDeletionAdapter;
 
   @override
-  Future<NightStudyEntity?> findOutEntityById(int id) async {
+  Future<NightStudyEntity?> findNightStudyEntityById(int id) async {
     return _queryAdapter.query('SELECT * FROM night_study WHERE id = ?1',
         mapper: (Map<String, Object?> row) => NightStudyEntity(
             id: row['id'] as int?,
-            place: PlaceType.values[row['place'] as int],
+            title: row['title'] as String,
+            reason: row['reason'] as String,
+            place: _placeTypeConverter.decode(row['place'] as String),
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
@@ -316,7 +324,9 @@ class _$NighStudyDao extends NighStudyDao {
     return _queryAdapter.queryList('SELECT * FROM night_study',
         mapper: (Map<String, Object?> row) => NightStudyEntity(
             id: row['id'] as int?,
-            place: PlaceType.values[row['place'] as int],
+            title: row['title'] as String,
+            reason: row['reason'] as String,
+            place: _placeTypeConverter.decode(row['place'] as String),
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
@@ -329,7 +339,9 @@ class _$NighStudyDao extends NighStudyDao {
     return _queryAdapter.queryListStream('SELECT * FROM night_study',
         mapper: (Map<String, Object?> row) => NightStudyEntity(
             id: row['id'] as int?,
-            place: PlaceType.values[row['place'] as int],
+            title: row['title'] as String,
+            reason: row['reason'] as String,
+            place: _placeTypeConverter.decode(row['place'] as String),
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
@@ -340,7 +352,7 @@ class _$NighStudyDao extends NighStudyDao {
   }
 
   @override
-  Future<void> deleteOutEntityById(int id) async {
+  Future<void> deleteNightStudyEntityById(int id) async {
     await _queryAdapter.queryNoReturn('DELETE FROM night_study WHERE id = ?1',
         arguments: [id]);
   }
@@ -371,3 +383,4 @@ class _$NighStudyDao extends NighStudyDao {
 // ignore_for_file: unused_element
 final _timeOfDayConverter = TimeOfDayConverter();
 final _datetimeConverter = DatetimeConverter();
+final _placeTypeConverter = PlaceTypeConverter();

@@ -1,24 +1,27 @@
+import 'package:easier_dodam/feature/night_study/item/night_study_item.dart';
 import 'package:flutter/material.dart';
 
 class NightStudyPresentItem extends StatelessWidget {
   final String presetTitle;
   final String reason;
-  final List<String> places;
+  final PlaceType place;
   final bool doNeedPhone;
   final String phoneReason;
   final String startDate;
   final String endDate;
+  final Function() onTrashClick;
   final Function() onClickCreate;
 
   const NightStudyPresentItem({
     super.key,
     required this.presetTitle,
     required this.reason,
-    required this.places,
+    required this.place,
     required this.doNeedPhone,
     required this.phoneReason,
     required this.startDate,
     required this.endDate,
+    required this.onTrashClick,
     required this.onClickCreate,
   });
 
@@ -26,7 +29,7 @@ class NightStudyPresentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("심자 프리셋 생성하기"),
+        title: const Text("심자 프리셋 생성하기"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,12 +47,12 @@ class NightStudyPresentItem extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text("장소 선택", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: places.first,
-              items: places.map((place) {
-                return DropdownMenuItem(
-                  value: place,
-                  child: Text(place),
+            DropdownButton<PlaceType>(
+              value: place,
+              items: PlaceType.values.map((placeType) {
+                return DropdownMenuItem<PlaceType>(
+                  value: placeType,
+                  child: Text(placeType.toString().split('.').last),
                 );
               }).toList(),
               onChanged: (value) {},

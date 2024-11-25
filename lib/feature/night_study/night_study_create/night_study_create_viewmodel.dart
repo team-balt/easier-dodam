@@ -7,6 +7,8 @@ import '../item/night_study_item.dart';
 class NightStudyCreateViewModel with ChangeNotifier {
   Future<bool> createNightStudy({
     required PlaceType place,
+    required String title,
+    required String reason,
     required String content,
     required bool doNeedPhone,
     required String reasonForPhone,
@@ -15,6 +17,8 @@ class NightStudyCreateViewModel with ChangeNotifier {
   }) async {
     final database = await DatabaseManager.getDatabase();
     await database.nightStudyDao.insertNightStudyEntity(NightStudyEntity(
+        title: title,
+        reason: reason,
         place: place,
         content: content,
         doNeedPhone: doNeedPhone,

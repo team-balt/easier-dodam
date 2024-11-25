@@ -192,6 +192,8 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                             return;
                           }
                           await provider.createNightStudy(
+                            title: _titleTextFieldController.text,
+                            reason: _contentTextFieldController.text,
                             place: selectedPlace!,
                             content: _contentTextFieldController.text,
                             doNeedPhone: doNeedPhone,

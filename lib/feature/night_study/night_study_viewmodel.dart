@@ -1,32 +1,64 @@
-import 'package:easier_dodam/remote/night_study/night_study_data_source.dart';
-import 'package:easier_dodam/remote/night_study/response/night_study_response.dart';
+import 'dart:async';
+
+import 'package:easier_dodam/feature/night_study/item/night_study_item.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../local/database_manager.dart';
+import '../../local/entity/night_study_entity.dart';
 import '../../remote/core/base_response.dart';
+import '../../remote/night_study/night_study_data_source.dart';
+import '../../remote/night_study/response/night_study_response.dart';
 
-class NightStudyViewmodel with ChangeNotifier{
+class NightStudyViewmodel with ChangeNotifier {
   late NightStudyDataSource _nightStudyDataSource;
 
-  String _testState = "";
-  String get testState => _testState;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
-  NightStudyViewmodel(){
+  List<NightStudyEntity> _nightStudyEntities = List.empty();
+  List<NightStudyEntity> get nightStudyEntities => _nightStudyEntities;
+
+  List<NightStudyEntity> _nightStudyResponses = List.empty();
+  List<NightStudyEntity> get nightStudyResponses => _nightStudyResponses;
+
+  StreamSubscription<List<NightStudyEntity>>? _nightStudyStreamSubscription;
+
+  NightStudyViewmodel() {
     _nightStudyDataSource = NightStudyDataSource();
+    _getNightStudyEntities();
   }
 
-  Future<bool> nightStudy(
-      String place,
-      String content,
-      bool doNeedPhone,
-      String reasonForPhone,
-      String startAt,
-      String endAt
-      ) async {
-    final BaseResponse<NightStudyResponse> response =
-        await _nightStudyDataSource.nightStudy(place, content, doNeedPhone, reasonForPhone, startAt, endAt);
+  void _getNightStudyEntities() async {
+    final database = await DatabaseManager.getDatabase();
+    _nightStudyStreamSubscription = database.nightStudyDao.findAllEntitiesWithStream().listen((data) {
+      _nightStudyResponses = data;
+      notifyListeners();
+    });
+  }
+
+  void removeEntity(int id) async {
+    final database = await DatabaseManager.getDatabase();
+    await database.nightStudyDao.deleteNightStudyEntityById(id);
+  }
+
+  Future<bool> nightStudy(NightStudyEntity nightStudyEntity) async {
+        await _nightStudyDataSource.postNightStudy(
+            nightStudyEntity.title,
+            nightStudyEntity.reason,
+            nightStudyEntity.place,
+            nightStudyEntity.content,
+            nightStudyEntity.doNeedPhone,
+            nightStudyEntity.reasonForPhone,
+            nightStudyEntity.startAt,
+            nightStudyEntity.endAt
+        );
     notifyListeners();
     return true;
   }
 
-
+  @override
+  void dispose() {
+    _nightStudyStreamSubscription?.cancel();
+    super.dispose();
+  }
 }
