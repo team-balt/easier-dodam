@@ -76,6 +76,8 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
 
   OutDao? _outDaoInstance;
 
+  NighStudyDao? _nightStudyDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -99,6 +101,8 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `out` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `night_study` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `place` INTEGER NOT NULL, `content` TEXT NOT NULL, `doNeedPhone` INTEGER NOT NULL, `reasonForPhone` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -109,6 +113,11 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
   @override
   OutDao get outDao {
     return _outDaoInstance ??= _$OutDao(database, changeListener);
+  }
+
+  @override
+  NighStudyDao get nightStudyDao {
+    return _nightStudyDaoInstance ??= _$NighStudyDao(database, changeListener);
   }
 }
 
@@ -226,6 +235,136 @@ class _$OutDao extends OutDao {
   @override
   Future<void> deleteOutEntity(OutEntity outEntity) async {
     await _outEntityDeletionAdapter.delete(outEntity);
+  }
+}
+
+class _$NighStudyDao extends NighStudyDao {
+  _$NighStudyDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _nightStudyEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'night_study',
+            (NightStudyEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'place': item.place.index,
+                  'content': item.content,
+                  'doNeedPhone': item.doNeedPhone ? 1 : 0,
+                  'reasonForPhone': item.reasonForPhone,
+                  'startAt': _timeOfDayConverter.encode(item.startAt),
+                  'endAt': _timeOfDayConverter.encode(item.endAt)
+                },
+            changeListener),
+        _nightStudyEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'night_study',
+            ['id'],
+            (NightStudyEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'place': item.place.index,
+                  'content': item.content,
+                  'doNeedPhone': item.doNeedPhone ? 1 : 0,
+                  'reasonForPhone': item.reasonForPhone,
+                  'startAt': _timeOfDayConverter.encode(item.startAt),
+                  'endAt': _timeOfDayConverter.encode(item.endAt)
+                },
+            changeListener),
+        _nightStudyEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'night_study',
+            ['id'],
+            (NightStudyEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'place': item.place.index,
+                  'content': item.content,
+                  'doNeedPhone': item.doNeedPhone ? 1 : 0,
+                  'reasonForPhone': item.reasonForPhone,
+                  'startAt': _timeOfDayConverter.encode(item.startAt),
+                  'endAt': _timeOfDayConverter.encode(item.endAt)
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<NightStudyEntity> _nightStudyEntityInsertionAdapter;
+
+  final UpdateAdapter<NightStudyEntity> _nightStudyEntityUpdateAdapter;
+
+  final DeletionAdapter<NightStudyEntity> _nightStudyEntityDeletionAdapter;
+
+  @override
+  Future<NightStudyEntity?> findOutEntityById(int id) async {
+    return _queryAdapter.query('SELECT * FROM night_study WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => NightStudyEntity(
+            id: row['id'] as int?,
+            place: PlaceType.values[row['place'] as int],
+            content: row['content'] as String,
+            doNeedPhone: (row['doNeedPhone'] as int) != 0,
+            reasonForPhone: row['reasonForPhone'] as String,
+            startAt: _timeOfDayConverter.decode(row['startAt'] as String),
+            endAt: _timeOfDayConverter.decode(row['endAt'] as String)),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<NightStudyEntity>> findAllEntities() async {
+    return _queryAdapter.queryList('SELECT * FROM night_study',
+        mapper: (Map<String, Object?> row) => NightStudyEntity(
+            id: row['id'] as int?,
+            place: PlaceType.values[row['place'] as int],
+            content: row['content'] as String,
+            doNeedPhone: (row['doNeedPhone'] as int) != 0,
+            reasonForPhone: row['reasonForPhone'] as String,
+            startAt: _timeOfDayConverter.decode(row['startAt'] as String),
+            endAt: _timeOfDayConverter.decode(row['endAt'] as String)));
+  }
+
+  @override
+  Stream<List<NightStudyEntity>> findAllEntitiesWithStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM night_study',
+        mapper: (Map<String, Object?> row) => NightStudyEntity(
+            id: row['id'] as int?,
+            place: PlaceType.values[row['place'] as int],
+            content: row['content'] as String,
+            doNeedPhone: (row['doNeedPhone'] as int) != 0,
+            reasonForPhone: row['reasonForPhone'] as String,
+            startAt: _timeOfDayConverter.decode(row['startAt'] as String),
+            endAt: _timeOfDayConverter.decode(row['endAt'] as String)),
+        queryableName: 'night_study',
+        isView: false);
+  }
+
+  @override
+  Future<void> deleteOutEntityById(int id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM night_study WHERE id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAllNightStudyEntities() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM night_study');
+  }
+
+  @override
+  Future<void> insertNightStudyEntity(NightStudyEntity nightStudyEntity) async {
+    await _nightStudyEntityInsertionAdapter.insert(
+        nightStudyEntity, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateNightStudyEntity(NightStudyEntity nightStudyEntity) async {
+    await _nightStudyEntityUpdateAdapter.update(
+        nightStudyEntity, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteNightStudyEntity(NightStudyEntity nightStudyEntity) async {
+    await _nightStudyEntityDeletionAdapter.delete(nightStudyEntity);
   }
 }
 

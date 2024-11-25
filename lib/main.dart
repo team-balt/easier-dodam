@@ -1,5 +1,7 @@
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/feature/login/login_navigation.dart';
+import 'package:easier_dodam/feature/night_study/night_study_create/night_study_create.dart';
+import 'package:easier_dodam/feature/night_study/night_study_viewmodel.dart';
 import 'package:easier_dodam/feature/out/out.dart';
 import 'package:easier_dodam/feature/out_create/out_create.dart';
 import 'package:easier_dodam/feature/out_create/out_create_navigation.dart';
@@ -9,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'feature/login/login.dart';
 import 'feature/night_study/night_study.dart';
+import 'feature/night_study/night_study_create/night_study_create_navigation.dart';
 import 'feature/night_study/night_study_navigation.dart';
 import 'feature/out/out_navigation.dart';
 import 'feature/out/out_viewmodel.dart';
@@ -34,18 +37,24 @@ class MyApp extends StatelessWidget {
         fontFamily: "Pretendard",
         scaffoldBackgroundColor: EasierDodamColors.staticWhite,
       ),
-      initialRoute: loginRoute,
+      initialRoute: nightStudyCreateRoute,
       routes: {
-        nightStudyRoute: (context) => NightStudyScreen(),
-        loginRoute: (context) => LoginScreen(),
+        nightStudyRoute: (context) => ChangeNotifierProvider(
+          create: (_) => NightStudyViewmodel(),
+          child: NightStudyScreen(),
+        ),
         outRoute: (context) => ChangeNotifierProvider(
-              create: (_) => OutViewModel(),
-              child: OutScreen(),
-            ),
+          create: (_) => OutViewModel(),
+          child: OutScreen(),
+        ),
         outCreateRoute: (context) => OutCreateScreen(),
         "test": (context) => Scaffold(
-              body: Text("test"),
-            )
+          body: Text("test"),
+        ),
+        nightStudyCreateRoute: (context) => ChangeNotifierProvider(
+          create: (_) => NightStudyViewmodel(),
+          child: NightStudyCreateScreen(),
+        ),
       },
     );
   }
