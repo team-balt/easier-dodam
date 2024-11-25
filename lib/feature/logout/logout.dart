@@ -1,21 +1,24 @@
-import 'package:easier_dodam/component/theme/color.dart';
-import 'package:easier_dodam/component/bottom_navigation_bar.dart';
-import 'package:easier_dodam/feature/login/login_navigation.dart';
-import 'package:easier_dodam/feature/night_study/night_study_navigation.dart';
-import 'package:easier_dodam/feature/out/out_navigation.dart';
-import 'package:easier_dodam/feature/out_sleeping/out_sleeping_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../component/appbar_no_icon.dart';
+import '../../component/appbar.dart';
+import '../../component/theme/color.dart';
+import '../../component/bottom_navigation_bar.dart';
+import '../../feature/login/login_navigation.dart';
+import '../../feature/night_study/night_study_navigation.dart';
+import '../../feature/out/out_navigation.dart';
+import '../../feature/out_sleeping/out_sleeping_navigation.dart';
+import '../logout/logout_viewmodel.dart';
+import 'item/setting_item.dart';
 
-class LogoutScreen extends StatefulWidget {
-  const LogoutScreen({Key? key}) : super(key: key);
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({super.key});
 
   @override
-  State<LogoutScreen> createState() => _LogoutScreenState();
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _LogoutScreenState extends State<LogoutScreen> {
+class _SettingScreenState extends State<SettingScreen> {
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -40,49 +43,28 @@ class _LogoutScreenState extends State<LogoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<SettingViewModel>(context);
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: EasierDodamDefaultAppbarWithoutIcon(
+        preferredSize: const Size.fromHeight(60),
+        child: EasierDodamDefaultAppbar(
           title: "설정",
+          colors: EasierDodamColors.staticWhite,
+          onPlusClick: () {},
         ),
       ),
       body: Column(
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: Offset(0, 4),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                    child: const ListTile(
-                      title: Text(
-                        '앱 버전',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                      trailing: Text(
-                        'v1.00',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
+                  SettingListTile(
+                    title: '앱 버전',
+                    trailing: 'v1.00',
                   ),
                   const SizedBox(height: 24),
                   Container(
@@ -91,7 +73,7 @@ class _LogoutScreenState extends State<LogoutScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                           blurRadius: 8,
                         ),
                       ],
@@ -106,8 +88,11 @@ class _LogoutScreenState extends State<LogoutScreen> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, loginRoute);
+                        onPressed: () async {
+                          final success = await viewModel.logout();
+                          if (success) {
+                            Navigator.pushReplacementNamed(context, loginRoute);
+                          }
                         },
                         child: const Text(
                           '로그아웃',
