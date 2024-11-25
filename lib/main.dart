@@ -21,8 +21,8 @@ import 'feature/out/out_viewmodel.dart';
 import 'feature/out_sleeping_create/out_sleeping_create_navigation.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // 추가
-  await FlutterConfig.loadEnvVariables(); // 추가
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
 
   runApp(const MyApp());
 }
