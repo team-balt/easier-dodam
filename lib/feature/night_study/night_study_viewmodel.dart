@@ -39,6 +39,7 @@ class NightStudyViewmodel with ChangeNotifier {
   void removeEntity(int id) async {
     final database = await DatabaseManager.getDatabase();
     await database.nightStudyDao.deleteNightStudyEntityById(id);
+    notifyListeners();
   }
 
   Future<void> getMyNightStudies() async {
