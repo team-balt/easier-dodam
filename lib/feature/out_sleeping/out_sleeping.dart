@@ -83,7 +83,6 @@ class _OutSleepingScreenState extends State<OutSleepingScreen>
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: EasierDodamDefaultAppbar(
-              colors: EasierDodamColors.gray600,
               title: "외박",
               onPlusClick: () {
                 showModalBottomSheet(

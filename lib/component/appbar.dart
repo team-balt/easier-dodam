@@ -11,7 +11,7 @@ class EasierDodamDefaultAppbar extends StatelessWidget {
     super.key,
     required this.title,
     required this.onPlusClick,
-    required this.colors,
+    this.colors = EasierDodamColors.gray600,
   });
 
   @override
