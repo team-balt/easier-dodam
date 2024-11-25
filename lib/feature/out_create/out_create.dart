@@ -153,7 +153,6 @@ class _OutCreateScreenState extends State<OutCreateScreen> {
 }
 
 TimeOfDay adjustTimeOfDay(TimeOfDay time, {required int hoursToAdd}) {
-  // TimeOfDay를 DateTime으로 변환
   final now = DateTime.now();
   final timeAsDateTime = DateTime(
     now.year,
@@ -163,11 +162,9 @@ TimeOfDay adjustTimeOfDay(TimeOfDay time, {required int hoursToAdd}) {
     time.minute,
   );
 
-  // 시간 증감
   final adjustedTimeAsDateTime =
       timeAsDateTime.add(Duration(hours: hoursToAdd));
 
-  // 다시 TimeOfDay로 변환
   return TimeOfDay(
     hour: adjustedTimeAsDateTime.hour,
     minute: adjustedTimeAsDateTime.minute,

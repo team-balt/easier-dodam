@@ -12,4 +12,7 @@ abstract class EasierDodamUrl {
 
   static get NIGHT_STUDY => _SERVER_URL + "/night-study";
   static get NIGHT_STUDY_MY => _SERVER_URL + "/night-study/my";
+
+  static get OUT_SLEEPING => _SERVER_URL + "/out-sleeping";
+  static get OUT_SLEEPING_MY => _SERVER_URL + "/out-sleeping/my";
 }

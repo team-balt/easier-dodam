@@ -1,0 +1,1 @@
+const logoutRoute = "logout";
