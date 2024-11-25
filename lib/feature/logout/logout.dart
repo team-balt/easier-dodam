@@ -62,7 +62,7 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SettingListTile(
+                  SettingList(
                     title: '앱 버전',
                     trailing: 'v1.00',
                   ),
