@@ -6,7 +6,7 @@ part 'night_study_request.g.dart';
 
 @JsonSerializable()
 class NightStudyRequest{
-  PlaceType place;
+  String place;
   String content;
   bool doNeedPhone;
   String reasonForPhone;

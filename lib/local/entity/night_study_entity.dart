@@ -9,8 +9,6 @@ class NightStudyEntity {
 
   final String title;
 
-  final String reason;
-
   final PlaceType place;
 
   final String content;
@@ -26,7 +24,6 @@ class NightStudyEntity {
   NightStudyEntity({
     this.id,
     required this.title,
-    required this.reason,
     required this.place,
     required this.content,
     required this.doNeedPhone,
@@ -42,7 +39,6 @@ class NightStudyEntity {
               runtimeType == other.runtimeType &&
               id == other.id &&
               title == other.title &&
-              reason == other.reason &&
               place == other.place &&
               content == other.content &&
               doNeedPhone == other.doNeedPhone &&
@@ -54,7 +50,6 @@ class NightStudyEntity {
   int get hashCode =>
       id.hashCode ^
       title.hashCode ^
-      reason.hashCode ^
       place.hashCode ^
       content.hashCode ^
       doNeedPhone.hashCode ^
@@ -64,6 +59,6 @@ class NightStudyEntity {
 
   @override
   String toString() {
-    return 'NightStudyEntity(id: $id, title: $title, reason: $reason, place: $place, content: $content, doNeedPhone: $doNeedPhone, reasonForPhone: $reasonForPhone, startAt: $startAt, endAt: $endAt)';
+    return 'NightStudyEntity(id: $id, title: $title, place: $place, content: $content, doNeedPhone: $doNeedPhone, reasonForPhone: $reasonForPhone, startAt: $startAt, endAt: $endAt)';
   }
 }

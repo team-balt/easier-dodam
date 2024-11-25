@@ -8,33 +8,31 @@ import '../../feature/night_study/item/night_study_item.dart';
 
 class NightStudyDataSource{
 
-  Future<BaseResponse<NightStudyResponse>> postNightStudy(
-      String title,
-      String reason,
+  Future<bool> postNightStudy(
       PlaceType place,
       String content,
       bool doNeedPhone,
       String reasonForPhone,
       DateTime startAt,
-      DateTime endAt) async {
-    return await CoreClient.post(
-        url: EasierDodamUrl.NIGHT_STUDY,
-        body: NightStudyRequest(
-            place: place,
-            content: content,
-            doNeedPhone: doNeedPhone,
-            reasonForPhone: reasonForPhone,
-            endAt: endAt,
-            startAt: startAt
-        ).toJson(),
-        decoder: NightStudyResponse.fromJson,
-        sendToken: true
+      DateTime endAt
+      ) async {
+    await CoreClient.post<void>(
+      url: EasierDodamUrl.NIGHT_STUDY,
+      body: NightStudyRequest(
+          place: place.name.toString(),
+          content: content,
+          doNeedPhone: doNeedPhone,
+          reasonForPhone: reasonForPhone,
+          startAt: startAt,
+          endAt: endAt
+      ).toJson(),
     );
+    return true;
   }
 
   Future<List<NightStudyResponse>> getMyNightStudies() async{
     final response = await CoreClient.get<List<NightStudyResponse>>(
-        url: EasierDodamUrl.NIGHT_STUDY,
+        url: EasierDodamUrl.NIGHT_STUDY_MY,
         listDecoder: (data) {
       return data
           .map((item) => NightStudyResponse.fromJson(item as Map<String, dynamic>))

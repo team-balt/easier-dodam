@@ -102,7 +102,7 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `out` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `night_study` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `place` TEXT NOT NULL, `content` TEXT NOT NULL, `doNeedPhone` INTEGER NOT NULL, `reasonForPhone` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `night_study` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `place` TEXT NOT NULL, `content` TEXT NOT NULL, `doNeedPhone` INTEGER NOT NULL, `reasonForPhone` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -249,7 +249,6 @@ class _$NighStudyDao extends NighStudyDao {
             (NightStudyEntity item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
-                  'reason': item.reason,
                   'place': _placeTypeConverter.encode(item.place),
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
@@ -265,7 +264,6 @@ class _$NighStudyDao extends NighStudyDao {
             (NightStudyEntity item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
-                  'reason': item.reason,
                   'place': _placeTypeConverter.encode(item.place),
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
@@ -281,7 +279,6 @@ class _$NighStudyDao extends NighStudyDao {
             (NightStudyEntity item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
-                  'reason': item.reason,
                   'place': _placeTypeConverter.encode(item.place),
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
@@ -309,7 +306,6 @@ class _$NighStudyDao extends NighStudyDao {
         mapper: (Map<String, Object?> row) => NightStudyEntity(
             id: row['id'] as int?,
             title: row['title'] as String,
-            reason: row['reason'] as String,
             place: _placeTypeConverter.decode(row['place'] as String),
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
@@ -325,7 +321,6 @@ class _$NighStudyDao extends NighStudyDao {
         mapper: (Map<String, Object?> row) => NightStudyEntity(
             id: row['id'] as int?,
             title: row['title'] as String,
-            reason: row['reason'] as String,
             place: _placeTypeConverter.decode(row['place'] as String),
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
@@ -340,7 +335,6 @@ class _$NighStudyDao extends NighStudyDao {
         mapper: (Map<String, Object?> row) => NightStudyEntity(
             id: row['id'] as int?,
             title: row['title'] as String,
-            reason: row['reason'] as String,
             place: _placeTypeConverter.decode(row['place'] as String),
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,

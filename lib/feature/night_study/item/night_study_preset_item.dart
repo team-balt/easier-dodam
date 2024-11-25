@@ -6,8 +6,8 @@ import '../../../component/theme/style.dart';
 
 class NightStudyPresetItem extends StatelessWidget {
   final String presetTitle;
-  final String reason;
   final PlaceType place;
+  final String content;
   final bool doNeedPhone;
   final String phoneReason;
   final String startDate;
@@ -18,8 +18,8 @@ class NightStudyPresetItem extends StatelessWidget {
   const NightStudyPresetItem({
     super.key,
     required this.presetTitle,
-    required this.reason,
     required this.place,
+    required this.content,
     required this.doNeedPhone,
     required this.phoneReason,
     required this.startDate,
@@ -53,7 +53,7 @@ class NightStudyPresetItem extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      "사유 : $reason",
+                      "사유 : $context",
                       style: EasierDodamStyles.body2
                           .copyWith(color: EasierDodamColors.gray600),
                     ),

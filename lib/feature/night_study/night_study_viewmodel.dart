@@ -60,8 +60,6 @@ class NightStudyViewmodel with ChangeNotifier {
 
   Future<bool> nightStudy(NightStudyEntity nightStudyEntity) async {
         await _nightStudyDataSource.postNightStudy(
-            nightStudyEntity.title,
-            nightStudyEntity.reason,
             nightStudyEntity.place,
             nightStudyEntity.content,
             nightStudyEntity.doNeedPhone,

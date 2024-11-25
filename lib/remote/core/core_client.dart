@@ -18,7 +18,7 @@ class CoreClient {
     bool sendToken = true,
   }) async {
     final headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
     };
     if (sendToken) {
       headers["Authorization"] =
@@ -30,7 +30,8 @@ class CoreClient {
       body: json.encode(body),
       headers: headers,
     );
-    print(response.body);
+    final responseBody = utf8.decode(response.bodyBytes);
+    print(responseBody);
 
     if (response.statusCode == 401 && sendToken) {
       final accessToken = await _refresh();
@@ -70,8 +71,8 @@ class CoreClient {
       Uri.parse(url),
       headers: headers,
     );
-
-    print(response.body);
+    final responseBody = utf8.decode(response.bodyBytes);
+    print(responseBody);
 
     if (response.statusCode == 401 && sendToken) {
       final accessToken = await _refresh();

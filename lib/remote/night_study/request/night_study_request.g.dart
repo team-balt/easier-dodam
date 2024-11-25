@@ -8,7 +8,7 @@ part of 'night_study_request.dart';
 
 NightStudyRequest _$NightStudyRequestFromJson(Map<String, dynamic> json) =>
     NightStudyRequest(
-      place: $enumDecode(_$PlaceTypeEnumMap, json['place']),
+      place: json['place'] as String,
       content: json['content'] as String,
       doNeedPhone: json['doNeedPhone'] as bool,
       reasonForPhone: json['reasonForPhone'] as String,
@@ -18,16 +18,10 @@ NightStudyRequest _$NightStudyRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$NightStudyRequestToJson(NightStudyRequest instance) =>
     <String, dynamic>{
-      'place': _$PlaceTypeEnumMap[instance.place]!,
+      'place': instance.place,
       'content': instance.content,
       'doNeedPhone': instance.doNeedPhone,
       'reasonForPhone': instance.reasonForPhone,
       'startAt': instance.startAt.toIso8601String(),
       'endAt': instance.endAt.toIso8601String(),
     };
-
-const _$PlaceTypeEnumMap = {
-  PlaceType.PROGRAMMING_1: 'PROGRAMMING_1',
-  PlaceType.PROGRAMMING_2: 'PROGRAMMING_2',
-  PlaceType.PROGRAMMING_3: 'PROGRAMMING_3',
-};

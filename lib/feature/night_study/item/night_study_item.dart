@@ -12,11 +12,11 @@ extension PlaceTypeExtension on PlaceType {
   String get name {
     switch (this) {
       case PlaceType.PROGRAMMING_1:
-        return "프로그래밍 1실";
+        return "프로그래밍1실";
       case PlaceType.PROGRAMMING_2:
-        return "프로그래밍 2실";
+        return "프로그래밍2실";
       case PlaceType.PROGRAMMING_3:
-        return "프로그래밍 3실";
+        return "프로그래밍3실";
     }
   }
 }

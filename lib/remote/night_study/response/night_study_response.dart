@@ -7,7 +7,7 @@ part 'night_study_response.g.dart';
 enum Status { ALLOWED, PENDING, REJECTED }
 
 @JsonSerializable()
-class NightStudyResponse extends BaseObject<NightStudyResponse>{
+class NightStudyResponse {
   int id;
   String content;
   Status allowCheck;
@@ -39,10 +39,6 @@ class NightStudyResponse extends BaseObject<NightStudyResponse>{
   factory NightStudyResponse.fromJson(Map<String, dynamic> json) =>
       _$NightStudyResponseFromJson(json);
 
-  @override
-  NightStudyResponse fromJson(json) {
-    return NightStudyResponse.fromJson(json);
-  }
-
+  Map<String, dynamic> toJson() => _$NightStudyResponseToJson(this);
 
 }

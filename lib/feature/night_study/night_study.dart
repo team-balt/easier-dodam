@@ -159,8 +159,8 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                   .map(
                     (data) => NightStudyPresetItem(
                       presetTitle: data.title,
-                      reason: data.reason,
                       place: data.place,
+                      content: data.content,
                       doNeedPhone: data.doNeedPhone,
                       phoneReason: data.reasonForPhone,
                       startDate: "${data.startAt} ${data.startAt.minute}",
@@ -323,24 +323,24 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
     }
     return items
         .map((item) => Column(
-      children: [
-        SizedBox(
-          height: 12,
-        ),
-        NightStudyItem(
-          tagType: switch (item.allowCheck) {
-            Status.ALLOWED => TagType.APPROVE,
-            Status.PENDING => TagType.PENDING,
-            Status.REJECTED => TagType.REJECT,
-          },
-          onClickTrash: () {
-            onClickTrash(item);
-          },
-          startAt: item.startAt,
-          endAt: item.endAt,
-        ),
-      ],
-    ))
+          children: [
+            SizedBox(
+              height: 12,
+            ),
+            NightStudyItem(
+              tagType: switch (item.allowCheck) {
+                Status.ALLOWED => TagType.APPROVE,
+                Status.PENDING => TagType.PENDING,
+                Status.REJECTED => TagType.REJECT,
+              },
+              onClickTrash: () {
+                onClickTrash(item);
+              },
+              startAt: item.startAt,
+              endAt: item.endAt,
+            ),
+          ],
+        ))
         .toList();
   }
 
