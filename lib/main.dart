@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Pretendard",
         scaffoldBackgroundColor: EasierDodamColors.staticWhite,
       ),
-      initialRoute: nightStudyCreateRoute,
+      initialRoute: nightStudyRoute,
       routes: {
         nightStudyRoute: (context) => ChangeNotifierProvider(
           create: (_) => NightStudyViewmodel(),

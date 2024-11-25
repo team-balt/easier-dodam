@@ -10,6 +10,7 @@ import 'package:easier_dodam/utiles/utile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../component/bottom_navigation_bar.dart';
 import 'item/out_preset_item.dart';
 
 class OutScreen extends StatefulWidget {

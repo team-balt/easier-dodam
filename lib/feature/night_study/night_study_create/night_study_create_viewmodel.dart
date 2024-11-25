@@ -10,8 +10,8 @@ class NightStudyCreateViewModel with ChangeNotifier {
     required String content,
     required bool doNeedPhone,
     required String reasonForPhone,
-    required TimeOfDay startAt,
-    required TimeOfDay endAt
+    required DateTime startAt,
+    required DateTime endAt
   }) async {
     final database = await DatabaseManager.getDatabase();
     await database.nightStudyDao.insertNightStudyEntity(NightStudyEntity(

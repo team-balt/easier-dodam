@@ -16,9 +16,9 @@ class NightStudyEntity {
 
   final String reasonForPhone;
 
-  final TimeOfDay startAt;
+  final DateTime startAt;
 
-  final TimeOfDay endAt;
+  final DateTime endAt;
 
   NightStudyEntity({
     this.id,

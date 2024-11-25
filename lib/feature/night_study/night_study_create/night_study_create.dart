@@ -22,8 +22,8 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
   final TextEditingController _contentTextFieldController = TextEditingController();
   final TextEditingController _reasonTextFieldController = TextEditingController();
 
-  TimeOfDay startAt = TimeOfDay.now();
-  TimeOfDay endAt = adjustTimeOfDay(TimeOfDay.now(), hoursToAdd: 3);
+  DateTime startAt = DateTime.now();
+  DateTime endAt = adjustDateTime(DateTime.now(), hoursToAdd: 3);
 
   PlaceType? selectedPlace;
   bool doNeedPhone = false;
@@ -54,7 +54,7 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
             ),
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     EasierDodamTextField(
@@ -83,28 +83,34 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                           selectedPlace = value;
                         });
                       },
+                      dropdownColor: EasierDodamColors.staticWhite,
                     ),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("휴대폰 필요 여부", style: TextStyle(fontSize: 16)),
-                        Switch(
+                        Checkbox(
                           value: doNeedPhone,
                           onChanged: (value) {
                             setState(() {
-                              doNeedPhone = value;
+                              doNeedPhone = value!;
                               if (!doNeedPhone) {
                                 _reasonTextFieldController.clear();
                               }
                             });
                           },
+                          activeColor: EasierDodamColors.primary300,
+                          checkColor: EasierDodamColors.staticWhite,
+                          side: BorderSide(
+                            color: EasierDodamColors.gray200,
+                            width: 2.0,
+                          ),
                         ),
                       ],
                     ),
                     if (doNeedPhone)
                       EasierDodamTextField(
-                        labelText: "휴대폰 필요 사유",
                         hintText: "휴대폰이 필요한 이유를 입력해주세요.",
                         controller: _reasonTextFieldController,
                       ),
@@ -113,39 +119,47 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        NightStudyCreateTimeItem(
-                          title: "심자 시작",
-                          buttonText: "${startAt.hour}시 ${startAt.minute}분",
-                          onButtonClick: () async {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: startAt,
-                            );
-                            if (time != null) {
-                              final diffMin = timeOfDayDifference(time, endAt);
-                              setState(() {
-                                startAt = time;
-                                if (diffMin < 0) {
-                                  endAt = time;
-                                }
-                              });
-                            }
-                          },
+                        Expanded(
+                          child: NightStudyCreateTimeItem(
+                            title: "심자 시작 날짜",
+                            buttonText: "${startAt.year}년 ${startAt.month}월 ${startAt.day}일",
+                            onButtonClick: () async {
+                              final date = await showDatePicker(
+                                context: context,
+                                initialDate: startAt,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+                              if (date != null) {
+                                setState(() {
+                                  startAt = date;
+                                  if (startAt.isAfter(endAt)) {
+                                    endAt = startAt;
+                                  }
+                                });
+                              }
+                            },
+                          ),
                         ),
-                        NightStudyCreateTimeItem(
-                          title: "심자 종료",
-                          buttonText: "${endAt.hour}시 ${endAt.minute}분",
-                          onButtonClick: () async {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: endAt,
-                            );
-                            if (time != null) {
-                              setState(() {
-                                endAt = time;
-                              });
-                            }
-                          },
+                        SizedBox(width: 8), // 간격 추가
+                        Expanded(
+                          child: NightStudyCreateTimeItem(
+                            title: "심자 종료 날짜",
+                            buttonText: "${endAt.year}년 ${endAt.month}월 ${endAt.day}일",
+                            onButtonClick: () async {
+                              final date = await showDatePicker(
+                                context: context,
+                                initialDate: endAt,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+                              if (date != null) {
+                                setState(() {
+                                  endAt = date;
+                                });
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -200,27 +214,9 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
     );
   }
 
-  static TimeOfDay adjustTimeOfDay(TimeOfDay time, {required int hoursToAdd}) {
-    final now = DateTime.now();
-    final timeAsDateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      time.hour,
-      time.minute,
-    );
+  static DateTime adjustDateTime(DateTime time, {required int hoursToAdd}) {
+    final adjustedTime = time.add(Duration(hours: hoursToAdd));
 
-    final adjustedTimeAsDateTime = timeAsDateTime.add(Duration(hours: hoursToAdd));
-
-    return TimeOfDay(
-      hour: adjustedTimeAsDateTime.hour,
-      minute: adjustedTimeAsDateTime.minute,
-    );
-  }
-
-  static int timeOfDayDifference(TimeOfDay start, TimeOfDay end) {
-    final startMinutes = start.hour * 60 + start.minute;
-    final endMinutes = end.hour * 60 + end.minute;
-    return endMinutes - startMinutes;
+    return adjustedTime;
   }
 }

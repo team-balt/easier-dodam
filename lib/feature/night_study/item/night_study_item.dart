@@ -26,8 +26,8 @@ extension PlaceTypeExtension on PlaceType {
     final TagType tagType;
     final Function() onClickTrash;
     final String? rejectReason;
-    final TimeOfDay startAt;
-    final TimeOfDay endAt;
+    final DateTime startAt;
+    final DateTime endAt;
 
     const NightStudyItem({
       super.key,
@@ -41,8 +41,8 @@ extension PlaceTypeExtension on PlaceType {
   @override
   Widget build(BuildContext context) {
 
-    final hour = timeOfDayDifference(TimeOfDay.now(), endAt) ~/ 60;
-    final minute = timeOfDayDifference(TimeOfDay.now(), endAt) % 60;
+    final hour = dateDifferenceInDays(DateTime.now(), endAt) ~/ 60;
+    final minute = dateDifferenceInDays(DateTime.now(), endAt) % 60;
 
     return Container(
       decoration: BoxDecoration(
@@ -138,42 +138,7 @@ extension PlaceTypeExtension on PlaceType {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "시작",
-                      style: EasierDodamStyles.label2.copyWith(
-                        fontSize: 12.0,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 2,
-                    ),
-                    Text(
-                      "${startAt.hour}시 ${startAt.minute}분",
-                      style: EasierDodamStyles.label2,
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "복귀",
-                      style: EasierDodamStyles.label2.copyWith(
-                        fontSize: 12.0,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 2,
-                    ),
-                    Text(
-                      "${endAt.hour}시 ${endAt.minute}분",
-                      style: EasierDodamStyles.label2,
-                    ),
-                  ],
-                ),
+
               ],
             ),
           ],

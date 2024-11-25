@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../feature/night_study/night_study.dart';
+import '../feature/out/out.dart';
+
 class EasierDodamBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
@@ -45,15 +51,14 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
             context,
             icon: 'assets/images/ic_moon_plus.svg',
             label: '심야자습',
-            index: 3,
+            index: 2,
           ),
           _buildNavItem(
             context,
             icon: 'assets/images/ic_gear.svg',
             label: '설정',
-            index: 2,
+            index: 3,
           ),
-
         ],
       ),
     );

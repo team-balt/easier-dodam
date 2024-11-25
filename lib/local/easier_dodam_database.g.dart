@@ -252,8 +252,8 @@ class _$NighStudyDao extends NighStudyDao {
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
-                  'startAt': _timeOfDayConverter.encode(item.startAt),
-                  'endAt': _timeOfDayConverter.encode(item.endAt)
+                  'startAt': _datetimeConverter.encode(item.startAt),
+                  'endAt': _datetimeConverter.encode(item.endAt)
                 },
             changeListener),
         _nightStudyEntityUpdateAdapter = UpdateAdapter(
@@ -266,8 +266,8 @@ class _$NighStudyDao extends NighStudyDao {
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
-                  'startAt': _timeOfDayConverter.encode(item.startAt),
-                  'endAt': _timeOfDayConverter.encode(item.endAt)
+                  'startAt': _datetimeConverter.encode(item.startAt),
+                  'endAt': _datetimeConverter.encode(item.endAt)
                 },
             changeListener),
         _nightStudyEntityDeletionAdapter = DeletionAdapter(
@@ -280,8 +280,8 @@ class _$NighStudyDao extends NighStudyDao {
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
-                  'startAt': _timeOfDayConverter.encode(item.startAt),
-                  'endAt': _timeOfDayConverter.encode(item.endAt)
+                  'startAt': _datetimeConverter.encode(item.startAt),
+                  'endAt': _datetimeConverter.encode(item.endAt)
                 },
             changeListener);
 
@@ -306,8 +306,8 @@ class _$NighStudyDao extends NighStudyDao {
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
-            startAt: _timeOfDayConverter.decode(row['startAt'] as String),
-            endAt: _timeOfDayConverter.decode(row['endAt'] as String)),
+            startAt: _datetimeConverter.decode(row['startAt'] as String),
+            endAt: _datetimeConverter.decode(row['endAt'] as String)),
         arguments: [id]);
   }
 
@@ -320,8 +320,8 @@ class _$NighStudyDao extends NighStudyDao {
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
-            startAt: _timeOfDayConverter.decode(row['startAt'] as String),
-            endAt: _timeOfDayConverter.decode(row['endAt'] as String)));
+            startAt: _datetimeConverter.decode(row['startAt'] as String),
+            endAt: _datetimeConverter.decode(row['endAt'] as String)));
   }
 
   @override
@@ -333,8 +333,8 @@ class _$NighStudyDao extends NighStudyDao {
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
-            startAt: _timeOfDayConverter.decode(row['startAt'] as String),
-            endAt: _timeOfDayConverter.decode(row['endAt'] as String)),
+            startAt: _datetimeConverter.decode(row['startAt'] as String),
+            endAt: _datetimeConverter.decode(row['endAt'] as String)),
         queryableName: 'night_study',
         isView: false);
   }
@@ -370,3 +370,4 @@ class _$NighStudyDao extends NighStudyDao {
 
 // ignore_for_file: unused_element
 final _timeOfDayConverter = TimeOfDayConverter();
+final _datetimeConverter = DatetimeConverter();
