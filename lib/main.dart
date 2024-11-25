@@ -2,6 +2,7 @@ import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/feature/login/login_navigation.dart';
 import 'package:easier_dodam/feature/logout/logout.dart';
 import 'package:easier_dodam/feature/logout/logout_navigation.dart';
+import 'package:easier_dodam/feature/logout/logout_viewmodel.dart';
 import 'package:easier_dodam/feature/out/out.dart';
 import 'package:easier_dodam/feature/out_create/out_create.dart';
 import 'package:easier_dodam/feature/out_create/out_create_navigation.dart';
@@ -45,15 +46,15 @@ class MyApp extends StatelessWidget {
       routes: {
         nightStudyRoute: (context) => NightStudyScreen(),
         loginRoute: (context) => LoginScreen(),
-        logoutRoute: (context) => LogoutScreen(),
+        logoutRoute: (context) => ChangeNotifierProvider(
+              create: (_) => SettingViewModel(),
+              child: SettingScreen(),
+            ),
         outSleepingRoute: (context) => ChangeNotifierProvider(
               create: (_) => OutSleepingViewModel(),
               child: OutSleepingScreen(),
             ),
         outSleepingCreateRoute: (context) => OutSleepingCreateScreen(),
-        "test2": (context) => Scaffold(
-              body: Text("test"),
-            ),
         outRoute: (context) => ChangeNotifierProvider(
               create: (_) => OutViewModel(),
               child: OutScreen(),
