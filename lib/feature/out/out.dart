@@ -49,6 +49,7 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(60),
             child: EasierDodamDefaultAppbar(
+              colors: EasierDodamColors.gray600,
               title: "외출",
               onPlusClick: () {
                 showModalBottomSheet(

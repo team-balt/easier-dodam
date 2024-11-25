@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import '../../component/bottom_navigation_bar.dart';
+import '../out/out_navigation.dart';
 
 String formatDateWithDay(DateTime date) {
   const weekDays = ["월", "화", "수", "목", "금", "토", "일"];
@@ -29,7 +30,7 @@ class OutSleepingScreen extends StatefulWidget {
 
 class _OutSleepingScreenState extends State<OutSleepingScreen>
     with WidgetsBindingObserver {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,6 +40,7 @@ class _OutSleepingScreenState extends State<OutSleepingScreen>
         case 0:
           break;
         case 1:
+          Navigator.pushReplacementNamed(context, outRoute);
           break;
         case 2:
           Navigator.pushReplacementNamed(context, logoutRoute);
@@ -81,6 +83,7 @@ class _OutSleepingScreenState extends State<OutSleepingScreen>
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: EasierDodamDefaultAppbar(
+              colors: EasierDodamColors.gray600,
               title: "외박",
               onPlusClick: () {
                 showModalBottomSheet(
