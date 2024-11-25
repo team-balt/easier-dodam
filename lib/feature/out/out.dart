@@ -2,7 +2,9 @@ import 'package:easier_dodam/component/appbar.dart';
 import 'package:easier_dodam/component/modal_bottom_sheet_container.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
+import 'package:easier_dodam/feature/night_study/night_study_navigation.dart';
 import 'package:easier_dodam/feature/out/item/out_item.dart';
+import 'package:easier_dodam/feature/out/out_navigation.dart';
 import 'package:easier_dodam/feature/out/out_viewmodel.dart';
 import 'package:easier_dodam/feature/out_create/out_create_navigation.dart';
 import 'package:easier_dodam/remote/out/response/out_response.dart';
@@ -22,12 +24,25 @@ class OutScreen extends StatefulWidget {
 
 class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
 
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, outRoute);
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, nightStudyRoute);
+        break;
+      case 3:
+        break;
+    }
   }
 
   @override

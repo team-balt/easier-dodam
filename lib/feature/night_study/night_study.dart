@@ -11,6 +11,8 @@ import 'package:easier_dodam/utiles/utile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../out/out_navigation.dart';
+import 'night_study_navigation.dart';
 import 'night_study_viewmodel.dart';
 
 class NightStudyScreen extends StatefulWidget {
@@ -24,12 +26,25 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
   final TextEditingController _reasonTextFieldController =
       TextEditingController();
 
-  int _selectedIndex = 3;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, outRoute);
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, nightStudyRoute);
+        break;
+      case 3:
+        break;
+    }
   }
 
   @override
