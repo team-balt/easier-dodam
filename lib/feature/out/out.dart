@@ -21,6 +21,15 @@ class OutScreen extends StatefulWidget {
 }
 
 class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
+
+  int _selectedIndex = 2;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +117,12 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                   ),
                 ],
               ),
+            ),
+          ),
+          bottomNavigationBar: SafeArea(
+            child: EasierDodamBottomNavigationBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
             ),
           ),
         );

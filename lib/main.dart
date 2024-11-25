@@ -17,8 +17,8 @@ import 'feature/out/out_navigation.dart';
 import 'feature/out/out_viewmodel.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // 추가
-  await FlutterConfig.loadEnvVariables(); // 추가
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
 
   runApp(const MyApp());
 }
@@ -49,9 +49,6 @@ class MyApp extends StatelessWidget {
           child: OutScreen(),
         ),
         outCreateRoute: (context) => OutCreateScreen(),
-        "test": (context) => Scaffold(
-          body: Text("test"),
-        ),
         nightStudyCreateRoute: (context) => NightStudyCreateScreen(),
       },
     );

@@ -32,26 +32,6 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
     });
   }
 
-  void _onPlusClick(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return ChangeNotifierProvider.value(
-          value: NightStudyViewmodel(),
-          child: Consumer<NightStudyViewmodel>(
-            builder: (
-              BuildContext context,
-              NightStudyViewmodel value,
-              Widget? child,
-            ) {
-              return _bottomWidget(context, NightStudyViewmodel());
-            },
-          ),
-        );
-      },
-    );
-  }
-
   @override
   void dispose() {
     _reasonTextFieldController.dispose();
@@ -60,7 +40,8 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NightStudyViewmodel>(builder:
+    return Consumer<NightStudyViewmodel>(
+        builder:
         (BuildContext context, NightStudyViewmodel viewModel, Widget? child) {
       return Scaffold(
         appBar: PreferredSize(
@@ -89,8 +70,10 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
           ),
         ),
         body: SafeArea(
-          child: ChangeNotifierProvider(
-            create: (_) => NightStudyViewmodel(),
+          child: RefreshIndicator(
+          onRefresh: () async {
+          return viewModel.getMyNightStudies();
+          },
             child: Consumer<NightStudyViewmodel>(
               builder: (context, provider, child) {
                 return Container(
