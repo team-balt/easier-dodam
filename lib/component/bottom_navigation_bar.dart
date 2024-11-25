@@ -13,48 +13,51 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 63,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade100,
-            blurRadius: 10,
-            offset: Offset(0, -15),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(
-            context,
-            icon: 'assets/images/ic_bed.svg',
-            label: '외박',
-            index: 0,
-          ),
-          _buildNavItem(
-            context,
-            icon: 'assets/images/ic_door_open.svg',
-            label: '외출',
-            index: 1,
-          ),
-          _buildNavItem(
-            context,
-            icon: 'assets/images/ic_moon_plus.svg',
-            label: '심야자습',
-            index: 3,
-          ),
-          _buildNavItem(
-            context,
-            icon: 'assets/images/ic_gear.svg',
-            label: '설정',
-            index: 2,
-          ),
-
-        ],
+    return SafeArea(
+      top: false,
+      child: Container(
+        height: 60,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              context,
+              icon: 'assets/images/ic_bed.svg',
+              label: '외박',
+              index: 0,
+            ),
+            _buildNavItem(
+              context,
+              icon: 'assets/images/ic_door_open.svg',
+              label: '외출',
+              index: 1,
+            ),
+            _buildNavItem(
+              context,
+              icon: 'assets/images/ic_moon_plus.svg',
+              label: '심야자습',
+              index: 3,
+            ),
+            _buildNavItem(
+              context,
+              icon: 'assets/images/ic_gear.svg',
+              label: '설정',
+              index: 2,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -72,14 +75,17 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
             icon,
             height: isSelected ? 30 : 24,
             width: isSelected ? 30 : 24,
-            color: isSelected ? Colors.blue : Colors.grey,
+            colorFilter: ColorFilter.mode(
+              isSelected ? Colors.blue : Colors.grey,
+              BlendMode.srcIn,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               color: isSelected ? Colors.blue : Colors.grey,
-              fontSize: isSelected ? 14 : 12,
+              fontSize: isSelected ? 13 : 12,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),
