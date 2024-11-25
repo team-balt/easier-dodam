@@ -63,8 +63,8 @@ class OutSleepingViewModel with ChangeNotifier {
   }
 
   Future<bool> requestSleeping(OutSleepingEntity sleepingEntity) async {
-    await _sleepingDataSource.postOutSleeping(sleepingEntity.reason,
-        sleepingEntity.startAt as String, sleepingEntity.endAt as String);
+    await _sleepingDataSource.postOutSleeping(
+        sleepingEntity.reason, sleepingEntity.startAt, sleepingEntity.endAt);
 
     getMySleepings();
     return true;

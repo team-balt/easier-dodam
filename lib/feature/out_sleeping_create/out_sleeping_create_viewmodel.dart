@@ -6,8 +6,8 @@ class OutSleepingCreateViewModel with ChangeNotifier {
   Future<bool> createSleeping({
     required String title,
     required String reason,
-    required DateTime startDate,
-    required DateTime endDate,
+    required String startDate,
+    required String endDate,
   }) async {
     final database = await DatabaseManager.getDatabase();
     await database.outSleepingDao.insertOutSleepingEntity(OutSleepingEntity(

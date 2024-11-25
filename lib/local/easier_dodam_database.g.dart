@@ -251,8 +251,8 @@ class _$OutSleepingDao extends OutSleepingDao {
                   'id': item.id,
                   'title': item.title,
                   'reason': item.reason,
-                  'startAt': _dateTimeConverter.encode(item.startAt),
-                  'endAt': _dateTimeConverter.encode(item.endAt)
+                  'startAt': item.startAt,
+                  'endAt': item.endAt
                 },
             changeListener),
         _outSleepingEntityUpdateAdapter = UpdateAdapter(
@@ -263,8 +263,8 @@ class _$OutSleepingDao extends OutSleepingDao {
                   'id': item.id,
                   'title': item.title,
                   'reason': item.reason,
-                  'startAt': _dateTimeConverter.encode(item.startAt),
-                  'endAt': _dateTimeConverter.encode(item.endAt)
+                  'startAt': item.startAt,
+                  'endAt': item.endAt
                 },
             changeListener),
         _outSleepingEntityDeletionAdapter = DeletionAdapter(
@@ -275,8 +275,8 @@ class _$OutSleepingDao extends OutSleepingDao {
                   'id': item.id,
                   'title': item.title,
                   'reason': item.reason,
-                  'startAt': _dateTimeConverter.encode(item.startAt),
-                  'endAt': _dateTimeConverter.encode(item.endAt)
+                  'startAt': item.startAt,
+                  'endAt': item.endAt
                 },
             changeListener);
 
@@ -299,8 +299,8 @@ class _$OutSleepingDao extends OutSleepingDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             reason: row['reason'] as String,
-            startAt: _dateTimeConverter.decode(row['startAt'] as String),
-            endAt: _dateTimeConverter.decode(row['endAt'] as String)),
+            startAt: row['startAt'] as String,
+            endAt: row['endAt'] as String),
         arguments: [id]);
   }
 
@@ -311,8 +311,8 @@ class _$OutSleepingDao extends OutSleepingDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             reason: row['reason'] as String,
-            startAt: _dateTimeConverter.decode(row['startAt'] as String),
-            endAt: _dateTimeConverter.decode(row['endAt'] as String)));
+            startAt: row['startAt'] as String,
+            endAt: row['endAt'] as String));
   }
 
   @override
@@ -322,8 +322,8 @@ class _$OutSleepingDao extends OutSleepingDao {
             id: row['id'] as int?,
             title: row['title'] as String,
             reason: row['reason'] as String,
-            startAt: _dateTimeConverter.decode(row['startAt'] as String),
-            endAt: _dateTimeConverter.decode(row['endAt'] as String)),
+            startAt: row['startAt'] as String,
+            endAt: row['endAt'] as String),
         queryableName: 'out_sleeping',
         isView: false);
   }

@@ -4,9 +4,8 @@ import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/out_sleeping_create/out_sleeping_create_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import 'item/out_sleeping_create_time_item.dart';
 
 class OutSleepingCreateScreen extends StatefulWidget {
   const OutSleepingCreateScreen({super.key});
@@ -21,14 +20,14 @@ class _OutSleepingCreateScreenState extends State<OutSleepingCreateScreen> {
       TextEditingController();
   final TextEditingController _reasonTextFieldController =
       TextEditingController();
-
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 1));
+  final TextEditingController _durationTextFieldController =
+      TextEditingController();
 
   @override
   void dispose() {
     _titleTextFieldController.dispose();
     _reasonTextFieldController.dispose();
+    _durationTextFieldController.dispose();
     super.dispose();
   }
 
@@ -65,49 +64,11 @@ class _OutSleepingCreateScreenState extends State<OutSleepingCreateScreen> {
                       controller: _reasonTextFieldController,
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        OutSleepingCreateTimeItem(
-                          title: "외박 시작",
-                          date: startDate,
-                          onButtonClick: () async {
-                            final date = await showDatePicker(
-                              context: context,
-                              initialDate: startDate,
-                              firstDate: DateTime.now(),
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 365)),
-                            );
-                            if (date == null) return;
-                            setState(() {
-                              startDate = date;
-                              if (!startDate.isBefore(endDate)) {
-                                endDate =
-                                    startDate.add(const Duration(days: 1));
-                              }
-                            });
-                          },
-                        ),
-                        OutSleepingCreateTimeItem(
-                          title: "외박 종료",
-                          date: endDate,
-                          onButtonClick: () async {
-                            final date = await showDatePicker(
-                              context: context,
-                              initialDate: endDate,
-                              firstDate: startDate,
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 365)),
-                            );
-                            if (date == null) return;
-                            setState(() {
-                              endDate = date;
-                            });
-                          },
-                        ),
-                      ],
+                    EasierDodamTextField(
+                      labelText: "외박 기간 (일)",
+                      hintText: "외박 기간을 입력해주세요.",
+                      controller: _durationTextFieldController,
+                      keyboardType: TextInputType.number,
                     ),
                     const Expanded(child: SizedBox()),
                     SizedBox(
@@ -125,11 +86,45 @@ class _OutSleepingCreateScreenState extends State<OutSleepingCreateScreen> {
                         ),
                         textColor: EasierDodamColors.staticWhite,
                         onPressed: () async {
+                          final title = _titleTextFieldController.text;
+                          final reason = _reasonTextFieldController.text;
+                          final durationText =
+                              _durationTextFieldController.text;
+
+                          if (title.isEmpty ||
+                              reason.isEmpty ||
+                              durationText.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("모든 필드를 입력해주세요."),
+                              ),
+                            );
+                            return;
+                          }
+
+                          final duration = int.tryParse(durationText);
+                          if (duration == null || duration <= 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("올바른 외박 기간(일)을 입력해주세요."),
+                              ),
+                            );
+                            return;
+                          }
+                          final dateFormatter = DateFormat('yyyy-MM-dd');
+                          final startDate = DateTime.now();
+                          final endDate =
+                              startDate.add(Duration(days: duration));
+
+                          final startDateString =
+                              dateFormatter.format(startDate);
+                          final endDateString = dateFormatter.format(endDate);
+
                           await provider.createSleeping(
-                            title: _titleTextFieldController.text,
-                            reason: _reasonTextFieldController.text,
-                            startDate: startDate,
-                            endDate: endDate,
+                            title: title,
+                            reason: reason,
+                            startDate: startDateString,
+                            endDate: endDateString,
                           );
 
                           Navigator.pop(context);

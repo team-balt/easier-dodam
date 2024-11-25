@@ -12,9 +12,9 @@ class OutSleepingEntity {
 
   final String reason;
 
-  final DateTime startAt;
+  final String startAt;
 
-  final DateTime endAt;
+  final String endAt;
 
   OutSleepingEntity({
     this.id,
