@@ -89,7 +89,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () async {
-      if (await CoreClient().hasToken()) {
+      if (await StorageManager().hasToken()) {
         Navigator.pushReplacementNamed(context, outSleepingRoute);
       } else {
         Navigator.pushReplacementNamed(context, loginRoute);

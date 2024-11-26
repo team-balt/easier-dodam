@@ -196,9 +196,4 @@ class CoreClient {
     _isRefresh = false;
     return baseResponse.data.accessToken;
   }
-
-  Future<bool> hasToken() async {
-    final tokenDto = await StorageManager.getUserToken();
-    return tokenDto.accessToken != null && tokenDto.accessToken!.isNotEmpty;
-  }
 }
