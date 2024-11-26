@@ -18,7 +18,11 @@ import 'feature/out/out_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
+  try {
+    await FlutterConfig.loadEnvVariables();
+  } catch (e) {
+    debugPrint('Failed to load environment variables: $e');
+  }
 
   runApp(const MyApp());
 }
@@ -28,29 +32,76 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        fontFamily: "Pretendard",
-        scaffoldBackgroundColor: EasierDodamColors.staticWhite,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NightStudyViewmodel()),
+        ChangeNotifierProvider(create: (_) => OutViewModel()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: "Pretendard",
+          scaffoldBackgroundColor: EasierDodamColors.staticWhite,
+        ),
+        initialRoute: loginRoute,
+        routes: {
+          nightStudyRoute: (context) => NightStudyScreen(),
+          loginRoute: (context) => LoginScreen(),
+          outRoute: (context) => OutScreen(),
+          outCreateRoute: (context) => OutCreateScreen(),
+          nightStudyCreateRoute: (context) => NightStudyCreateScreen(),
+        },
+        home: const SplashScreen(),
       ),
-      initialRoute: loginRoute,
-      routes: {
-        nightStudyRoute: (context) => ChangeNotifierProvider(
-          create: (_) => NightStudyViewmodel(),
-          child: NightStudyScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, loginRoute);
+    });
+
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: EasierDodamColors.staticWhite,
         ),
-        loginRoute: (context) => LoginScreen(),
-        outRoute: (context) => ChangeNotifierProvider(
-          create: (_) => OutViewModel(),
-          child: OutScreen(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/ic_splash.png',
+                  width: 200,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "도담도담을 쉽게",
+                  style: TextStyle(
+                    color: EasierDodamColors.primary300,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(
+                    EasierDodamColors.primary300,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        outCreateRoute: (context) => OutCreateScreen(),
-        nightStudyCreateRoute: (context) => NightStudyCreateScreen(),
-      },
+      ),
     );
   }
 }

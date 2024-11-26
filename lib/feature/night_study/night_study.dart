@@ -253,7 +253,7 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 0,
               blurRadius: 4,
-              offset: const Offset(0, 4), // changes position of shadow
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -328,7 +328,7 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
               height: 12,
             ),
             NightStudyItem(
-              tagType: switch (item.allowCheck) {
+              tagType: switch (item.status) {
                 Status.ALLOWED => TagType.APPROVE,
                 Status.PENDING => TagType.PENDING,
                 Status.REJECTED => TagType.REJECT,

@@ -138,7 +138,42 @@ extension PlaceTypeExtension on PlaceType {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "시작",
+                      style: EasierDodamStyles.label2.copyWith(
+                        fontSize: 12.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      "${startAt}일",
+                      style: EasierDodamStyles.label2,
+                    ),
+                  ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "복귀",
+                      style: EasierDodamStyles.label2.copyWith(
+                        fontSize: 12.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      "${endAt}일",
+                      style: EasierDodamStyles.label2,
+                    ),
+                  ],
+                ),
               ],
             ),
           ],

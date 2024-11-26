@@ -25,12 +25,14 @@ class NightStudyViewmodel with ChangeNotifier {
 
   NightStudyViewmodel() {
     _nightStudyDataSource = NightStudyDataSource();
+    getMyNightStudies();
     _getNightStudyEntities();
   }
 
   void _getNightStudyEntities() async {
     final database = await DatabaseManager.getDatabase();
-    _nightStudyStreamSubscription = database.nightStudyDao.findAllEntitiesWithStream().listen((data) {
+    _nightStudyStreamSubscription
+    = database.nightStudyDao.findAllEntitiesWithStream().listen((data) {
       _nightStudyEntities = data;
       notifyListeners();
     });
@@ -67,8 +69,9 @@ class NightStudyViewmodel with ChangeNotifier {
             nightStudyEntity.startAt,
             nightStudyEntity.endAt
         );
-    notifyListeners();
-    return true;
+
+        getMyNightStudies();
+        return true;
   }
 
   void setIsLoading(bool isLoading) {

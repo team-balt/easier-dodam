@@ -1,4 +1,3 @@
-import 'package:easier_dodam/remote/core/base_response.dart';
 import 'package:easier_dodam/remote/student/reponse/student_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,29 +9,31 @@ enum Status { ALLOWED, PENDING, REJECTED }
 class NightStudyResponse {
   int id;
   String content;
-  Status allowCheck;
-  bool isPhone;
-  String reason;
+  Status status;
+  bool doNeedPhone;
+  String? reasonForPhone;
   StudentResponse student;
+  String? rejectReason;
   String place;
   DateTime startAt;
   DateTime endAt;
   DateTime createdAt;
-  DateTime? checkedAt;
+  DateTime? modifiedAt;
 
   NightStudyResponse(
       {
         required this.id,
         required this.content,
-        required this.allowCheck,
-        required this.isPhone,
-        required this.reason,
+        required this.status,
+        required this.doNeedPhone,
+        this.reasonForPhone,
         required this.student,
+        this.rejectReason,
         required this.place,
         required this.startAt,
         required this.endAt,
         required this.createdAt,
-        this.checkedAt
+        this.modifiedAt
       }
   );
 
