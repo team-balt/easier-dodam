@@ -43,6 +43,11 @@ class StorageManager {
     );
   }
 
+  Future<bool> hasToken() async {
+    final tokenDto = await StorageManager.getUserToken();
+    return tokenDto.accessToken != null && tokenDto.accessToken!.isNotEmpty;
+  }
+
   static get _idKey => "id";
   static get _pwKey => "pw";
   static get _accessTokenKey => "accessToken";

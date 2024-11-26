@@ -5,6 +5,7 @@ import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/logout/logout_navigation.dart';
 import 'package:easier_dodam/feature/night_study/night_study_navigation.dart';
 import 'package:easier_dodam/feature/out_sleeping/item/out_sleeping_item.dart';
+import 'package:easier_dodam/feature/out_sleeping/out_sleeping_navigation.dart';
 import 'package:easier_dodam/feature/out_sleeping/out_sleeping_viewmodel.dart';
 import 'package:easier_dodam/feature/out_sleeping_create/out_sleeping_create_navigation.dart';
 import 'package:easier_dodam/remote/out_sleeping/response/out_sleeping_response.dart';
@@ -38,15 +39,16 @@ class _OutSleepingScreenState extends State<OutSleepingScreen>
 
       switch (index) {
         case 0:
+          Navigator.pushReplacementNamed(context, outSleepingRoute);
           break;
         case 1:
           Navigator.pushReplacementNamed(context, outRoute);
           break;
         case 2:
-          Navigator.pushReplacementNamed(context, logoutRoute);
+          Navigator.pushReplacementNamed(context, nightStudyRoute);
           break;
         case 3:
-          Navigator.pushReplacementNamed(context, nightStudyRoute);
+          Navigator.pushReplacementNamed(context, logoutRoute);
           break;
       }
     });

@@ -10,6 +10,7 @@ import '../../feature/out/out_navigation.dart';
 import '../../feature/out_sleeping/out_sleeping_navigation.dart';
 import '../logout/logout_viewmodel.dart';
 import 'item/setting_item.dart';
+import 'logout_navigation.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -33,9 +34,10 @@ class _SettingScreenState extends State<SettingScreen> {
           Navigator.pushReplacementNamed(context, outRoute);
           break;
         case 2:
+          Navigator.pushReplacementNamed(context, nightStudyRoute);
           break;
         case 3:
-          Navigator.pushReplacementNamed(context, nightStudyRoute);
+          Navigator.pushReplacementNamed(context, logoutRoute);
           break;
       }
     });

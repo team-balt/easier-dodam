@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:easier_dodam/local/entity/out_entity.dart';
 import 'package:floor/floor.dart';
 

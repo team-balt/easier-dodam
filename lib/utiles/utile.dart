@@ -16,3 +16,10 @@ extension DateTimeToTimeOfDay on DateTime {
     return TimeOfDay.fromDateTime(this);
   }
 }
+
+int dateDifferenceInDays(DateTime start, DateTime end) {
+  final difference = end.difference(start);
+
+  return difference.inDays;
+}
+
