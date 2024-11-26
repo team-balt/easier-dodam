@@ -46,7 +46,7 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
             ),
             _buildNavItem(
               context,
-              icon: 'assets/images/ic_door_open.svg',
+              icon: 'assets//imagesic_door_open.svg',
               label: '외출',
               index: 1,
             ),

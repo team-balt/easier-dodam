@@ -1,4 +1,5 @@
 import 'package:easier_dodam/component/theme/color.dart';
+import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/login/login_navigation.dart';
 import 'package:easier_dodam/feature/night_study/night_study_viewmodel.dart';
 import 'package:easier_dodam/feature/logout/logout.dart';
@@ -13,6 +14,7 @@ import 'package:easier_dodam/feature/out_sleeping/out_sleeping_viewmodel.dart';
 import 'package:easier_dodam/feature/out_sleeping_create/out_sleeping_create.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import 'feature/login/login.dart';
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Pretendard",
           scaffoldBackgroundColor: EasierDodamColors.staticWhite,
         ),
-        initialRoute: '',
+        initialRoute: 'splash',
         routes: {
           'splash': (context) => const SplashScreen(),
           nightStudyRoute: (context) => NightStudyScreen(),
@@ -99,23 +101,16 @@ class SplashScreen extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/ic_splash.png',
+                SvgPicture.asset(
+                  'assets/images/ic_splash.svg',
                   width: 200,
                 ),
                 const SizedBox(height: 16),
                 Text(
                   "도담도담을 쉽게",
-                  style: TextStyle(
-                    color: EasierDodamColors.primary300,
-                  ),
+                  style: EasierDodamStyles.title1.copyWith(fontSize: 30, color: EasierDodamColors.staticBlack),
                 ),
                 const SizedBox(height: 16),
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(
-                    EasierDodamColors.primary300,
-                  ),
-                ),
               ],
             ),
           ],
