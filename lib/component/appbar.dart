@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class EasierDodamDefaultAppbar extends StatelessWidget {
   final String title;
   final Function() onPlusClick;
+  final Color colors;
 
   const EasierDodamDefaultAppbar({
     super.key,
     required this.title,
     required this.onPlusClick,
+    this.colors = EasierDodamColors.gray600,
   });
 
   @override
@@ -42,7 +44,7 @@ class EasierDodamDefaultAppbar extends StatelessWidget {
                       height: 24,
                       child: Image.asset(
                         "assets/images/ic_plus.png",
-                        color: EasierDodamColors.gray600,
+                        color: colors,
                       ),
                     ),
                   ),
