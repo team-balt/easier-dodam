@@ -116,7 +116,9 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                       ..._nightStudyItemsView(
                         viewModel.nightStudyResponses,
                         viewModel.isLoading,
-                            (item) => {viewModel.deleteMyOut(item.id)},
+                            (item) => {
+                          viewModel.deleteMyOut(item.id)
+                            },
                       ),
                     ],
                   ),
