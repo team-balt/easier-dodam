@@ -40,6 +40,7 @@ class _OutCreateScreenState extends State<OutCreateScreen> {
         builder: (context, provider, child) {
           // testState = provider.testState;
           return Scaffold(
+            resizeToAvoidBottomInset: true,
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(60),
               child: EasierDodamDefaultPresetAppbar(
@@ -52,7 +53,7 @@ class _OutCreateScreenState extends State<OutCreateScreen> {
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
+                child: ListView(
                   children: [
                     EasierDodamTextField(
                       labelText: "프리셋 제목",
@@ -112,7 +113,23 @@ class _OutCreateScreenState extends State<OutCreateScreen> {
                         ),
                       ],
                     ),
-                    Expanded(child: SizedBox()),
+                    SizedBox(
+                      height: 150,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     SizedBox(
                       width: double.infinity,
                       height: 56.0,
@@ -120,8 +137,9 @@ class _OutCreateScreenState extends State<OutCreateScreen> {
                         height: 56.0,
                         color: EasierDodamColors.primary300,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0)),
-                        child: Text(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: const Text(
                           "생성하기",
                           style: EasierDodamStyles.body2,
                         ),
@@ -138,9 +156,7 @@ class _OutCreateScreenState extends State<OutCreateScreen> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    )
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),

@@ -22,4 +22,3 @@ int dateDifferenceInDays(DateTime start, DateTime end) {
 
   return difference.inDays;
 }
-

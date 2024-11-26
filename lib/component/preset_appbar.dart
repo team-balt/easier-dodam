@@ -14,9 +14,9 @@ class EasierDodamDefaultPresetAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: EasierDodamColors.staticWhite,
-      body: SafeArea(
+    return Container(
+      color: EasierDodamColors.staticWhite,
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
           child: Row(

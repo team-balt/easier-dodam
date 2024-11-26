@@ -56,6 +56,12 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: "Pretendard",
           scaffoldBackgroundColor: EasierDodamColors.staticWhite,
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: _NoAnimationTransition(),
+              TargetPlatform.iOS: _NoAnimationTransition(),
+            },
+          ),
         ),
         initialRoute: 'splash',
         routes: {
@@ -63,18 +69,18 @@ class MyApp extends StatelessWidget {
           nightStudyRoute: (context) => NightStudyScreen(),
           loginRoute: (context) => LoginScreen(),
           logoutRoute: (context) => ChangeNotifierProvider(
-            create: (_) => SettingViewModel(),
-            child: SettingScreen(),
-          ),
+                create: (_) => SettingViewModel(),
+                child: SettingScreen(),
+              ),
           outSleepingRoute: (context) => ChangeNotifierProvider(
-            create: (_) => OutSleepingViewModel(),
-            child: OutSleepingScreen(),
-          ),
+                create: (_) => OutSleepingViewModel(),
+                child: OutSleepingScreen(),
+              ),
           outSleepingCreateRoute: (context) => OutSleepingCreateScreen(),
           outRoute: (context) => ChangeNotifierProvider(
-            create: (_) => OutViewModel(),
-            child: OutScreen(),
-          ),
+                create: (_) => OutViewModel(),
+                child: OutScreen(),
+              ),
           outCreateRoute: (context) => OutCreateScreen(),
           nightStudyCreateRoute: (context) => NightStudyCreateScreen(),
         },
@@ -114,7 +120,8 @@ class SplashScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   "도담도담을 쉽게",
-                  style: EasierDodamStyles.title1.copyWith(fontSize: 30, color: EasierDodamColors.staticBlack),
+                  style: EasierDodamStyles.title1.copyWith(
+                      fontSize: 30, color: EasierDodamColors.staticBlack),
                 ),
                 const SizedBox(height: 16),
               ],
@@ -123,5 +130,17 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _NoAnimationTransition extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return child;
   }
 }
