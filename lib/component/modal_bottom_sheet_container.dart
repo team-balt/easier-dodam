@@ -16,7 +16,7 @@ class ModalBottomSheetContainer extends StatelessWidget {
           topRight: Radius.circular(28.0),
         ),
       ),
-      child: Column(
+      child: ListView(
         children: [
           SizedBox(
             height: 16,
