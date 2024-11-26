@@ -56,6 +56,12 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: "Pretendard",
           scaffoldBackgroundColor: EasierDodamColors.staticWhite,
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: _NoAnimationTransition(),
+              TargetPlatform.iOS: _NoAnimationTransition(),
+            },
+          ),
         ),
         initialRoute: 'splash',
         routes: {
@@ -124,5 +130,17 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _NoAnimationTransition extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return child;
   }
 }
