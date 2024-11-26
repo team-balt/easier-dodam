@@ -10,8 +10,8 @@ class NightStudyPresetItem extends StatelessWidget {
   final String content;
   final bool doNeedPhone;
   final String phoneReason;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final Function() onTrashClick;
   final Function() onClickCreate;
 
@@ -53,7 +53,7 @@ class NightStudyPresetItem extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      "사유 : $context",
+                      "사유 : $content",
                       style: EasierDodamStyles.body2
                           .copyWith(color: EasierDodamColors.gray600),
                     ),
@@ -68,7 +68,7 @@ class NightStudyPresetItem extends StatelessWidget {
                           EasierDodamStyles.body2.copyWith(fontSize: 12.0),
                         ),
                         Text(
-                          " $startDate",
+                          " ${startDate.year}년 ${startDate.month}월 ${startDate.day}일 ",
                           style:
                           EasierDodamStyles.body2.copyWith(fontSize: 14.0),
                         ),
@@ -79,7 +79,7 @@ class NightStudyPresetItem extends StatelessWidget {
                           EasierDodamStyles.body2.copyWith(fontSize: 12.0),
                         ),
                         Text(
-                          " $endDate",
+                          " ${endDate.year}년 ${endDate.month}월 ${endDate.day}일 ",
                           style:
                           EasierDodamStyles.body2.copyWith(fontSize: 14.0),
                         ),

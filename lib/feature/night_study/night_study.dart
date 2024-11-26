@@ -110,8 +110,10 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                       ),
                       ..._nightStudyItemsView(
                         viewModel.nightStudyResponses,
-                        viewModel.isLoading,
-                        (item) => {viewModel.deleteMyOut(item.id)},
+                        viewModel.isLoading, 
+                            (item) => {
+                          viewModel.deleteMyOut(item.id)
+                            },
                       ),
                     ],
                   ),
@@ -161,8 +163,8 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                       content: data.content,
                       doNeedPhone: data.doNeedPhone,
                       phoneReason: data.reasonForPhone,
-                      startDate: "${data.startAt} ${data.startAt.minute}",
-                      endDate: "${data.endAt.hour} ${data.endAt.minute}",
+                      startDate: data.startAt,
+                      endDate: data.endAt,
                       onTrashClick: () {
                         viewModel.removeEntity(data.id ?? 0);
                       },

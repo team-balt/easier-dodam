@@ -23,9 +23,9 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade300,
+              color: Colors.grey.shade200,
               blurRadius: 10,
-              offset: const Offset(0, -5),
+              offset: const Offset(0, -15),
             ),
           ],
         ),
