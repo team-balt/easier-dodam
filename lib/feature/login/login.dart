@@ -66,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _pwTextFieldController,
                     ),
                     Expanded(child: SizedBox()),
-                    Text(context.watch<LoginViewmodel>().testState),
                     SizedBox(
                       width: double.infinity,
                       height: 56.0,
