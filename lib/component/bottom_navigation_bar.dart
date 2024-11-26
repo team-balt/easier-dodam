@@ -30,7 +30,6 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(
               context,
@@ -66,27 +65,34 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
       {required String icon, required String label, required int index}) {
     final isSelected = index == selectedIndex;
 
-    return GestureDetector(
-      onTap: () => onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            icon,
-            height: isSelected ? 30 : 24,
-            width: isSelected ? 30 : 24,
-            color: isSelected ? Colors.blue : Colors.grey,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => onItemTapped(index),
+        onTapDown: (_) {
+          debugPrint("tap down");
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              height: isSelected ? 30 : 24,
+              width: isSelected ? 30 : 24,
               color: isSelected ? Colors.blue : Colors.grey,
-              fontSize: isSelected ? 14 : 12,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? Colors.blue : Colors.grey,
+                fontSize: isSelected ? 14 : 12,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

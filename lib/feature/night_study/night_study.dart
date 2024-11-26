@@ -30,10 +30,6 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, outSleepingRoute);
@@ -58,8 +54,7 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NightStudyViewmodel>(
-        builder:
+    return Consumer<NightStudyViewmodel>(builder:
         (BuildContext context, NightStudyViewmodel viewModel, Widget? child) {
       return Scaffold(
         appBar: PreferredSize(
@@ -74,10 +69,10 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                     value: viewModel,
                     child: Consumer<NightStudyViewmodel>(
                       builder: (
-                          BuildContext context,
-                          NightStudyViewmodel value,
-                          Widget? child,
-                          ) {
+                        BuildContext context,
+                        NightStudyViewmodel value,
+                        Widget? child,
+                      ) {
                         return _bottomWidget(context, viewModel);
                       },
                     ),
@@ -89,9 +84,9 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
         ),
         body: SafeArea(
           child: RefreshIndicator(
-          onRefresh: () async {
-          return viewModel.getMyNightStudies();
-          },
+            onRefresh: () async {
+              return viewModel.getMyNightStudies();
+            },
             child: Consumer<NightStudyViewmodel>(
               builder: (context, provider, child) {
                 return Container(
@@ -109,13 +104,13 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                       _notExitsNightStudy(
                         viewModel.nightStudyResponses.isEmpty &&
                             !viewModel.isLoading,
-                            () {
+                        () {
                           viewModel.getMyNightStudies();
                         },
                       ),
                       ..._nightStudyItemsView(
                         viewModel.nightStudyResponses,
-                        viewModel.isLoading,
+                        viewModel.isLoading, 
                             (item) => {
                           viewModel.deleteMyOut(item.id)
                             },
@@ -172,13 +167,13 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
                       endDate: "${data.endAt.hour} ${data.endAt.minute}",
                       onTrashClick: () {
                         viewModel.removeEntity(data.id ?? 0);
-                        },
+                      },
                       onClickCreate: () async {
                         Navigator.pop(context);
                         await viewModel.nightStudy(data);
-                        },
+                      },
                     ),
-              )
+                  )
                   .toList(),
               SizedBox(
                 height: 8,
@@ -190,7 +185,8 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
               SizedBox(
                 height: 8,
               ),
-              Material( //프리셋 생성 시작
+              Material(
+                //프리셋 생성 시작
                 color: EasierDodamColors.staticWhite,
                 child: InkWell(
                   onTap: () {
@@ -319,35 +315,33 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
   }
 
   List<Widget> _nightStudyItemsView(
-      List<NightStudyResponse> items,
-      bool isLoading,
-      Function(NightStudyResponse) onClickTrash,
-      ) {
+    List<NightStudyResponse> items,
+    bool isLoading,
+    Function(NightStudyResponse) onClickTrash,
+  ) {
     if (isLoading) {
       return List.empty();
     }
     return items
         .map((item) => Column(
-          children: [
-            SizedBox(
-              height: 12,
-            ),
-            NightStudyItem(
-              tagType: switch (item.status) {
-                Status.ALLOWED => TagType.APPROVE,
-                Status.PENDING => TagType.PENDING,
-                Status.REJECTED => TagType.REJECT,
-              },
-              onClickTrash: () {
-                onClickTrash(item);
-              },
-              startAt: item.startAt,
-              endAt: item.endAt,
-            ),
-          ],
-        ))
+              children: [
+                SizedBox(
+                  height: 12,
+                ),
+                NightStudyItem(
+                  tagType: switch (item.status) {
+                    Status.ALLOWED => TagType.APPROVE,
+                    Status.PENDING => TagType.PENDING,
+                    Status.REJECTED => TagType.REJECT,
+                  },
+                  onClickTrash: () {
+                    onClickTrash(item);
+                  },
+                  startAt: item.startAt,
+                  endAt: item.endAt,
+                ),
+              ],
+            ))
         .toList();
   }
-
 }
-

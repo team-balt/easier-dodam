@@ -24,8 +24,6 @@ class _SettingScreenState extends State<SettingScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-
       switch (index) {
         case 0:
           Navigator.pushReplacementNamed(context, outSleepingRoute);
