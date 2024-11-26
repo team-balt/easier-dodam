@@ -53,8 +53,9 @@ class MyApp extends StatelessWidget {
           fontFamily: "Pretendard",
           scaffoldBackgroundColor: EasierDodamColors.staticWhite,
         ),
-        initialRoute: loginRoute,
+        initialRoute: '',
         routes: {
+          'splash': (context) => const SplashScreen(),
           nightStudyRoute: (context) => NightStudyScreen(),
           loginRoute: (context) => LoginScreen(),
           logoutRoute: (context) => ChangeNotifierProvider(
@@ -73,7 +74,6 @@ class MyApp extends StatelessWidget {
           outCreateRoute: (context) => OutCreateScreen(),
           nightStudyCreateRoute: (context) => NightStudyCreateScreen(),
         },
-        home: const SplashScreen(),
       ),
     );
   }
