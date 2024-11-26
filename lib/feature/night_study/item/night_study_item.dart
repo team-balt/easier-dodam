@@ -151,7 +151,7 @@ extension PlaceTypeExtension on PlaceType {
                       width: 2,
                     ),
                     Text(
-                      "${startAt}일",
+                      "${startAt.year}-${startAt.month}-${startAt.day}일",
                       style: EasierDodamStyles.label2,
                     ),
                   ],
@@ -169,7 +169,7 @@ extension PlaceTypeExtension on PlaceType {
                       width: 2,
                     ),
                     Text(
-                      "${endAt}일",
+                      "${endAt.year}-${endAt.month}-${endAt.day}일",
                       style: EasierDodamStyles.label2,
                     ),
                   ],

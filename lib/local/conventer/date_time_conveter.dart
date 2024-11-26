@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-class DatetimeConverter extends TypeConverter<DateTime, String> {
+class DateTimeConverter extends TypeConverter<DateTime, String> {
   @override
   DateTime decode(String databaseValue) {
     return DateTime.parse(databaseValue);

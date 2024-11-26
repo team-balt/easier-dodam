@@ -3,14 +3,13 @@ import 'package:easier_dodam/component/theme/style.dart';
 import 'package:flutter/material.dart';
 
 class EasierDodamTextField extends StatefulWidget {
-  // const EasierDodamTextField({super.key});
-
   final String? labelText;
   final String? hintText;
   final String? supportText;
   final FocusNode? focusNode;
   final TextEditingController? controller;
   final bool obscureText;
+  final TextInputType? keyboardType;
 
   const EasierDodamTextField({
     super.key,
@@ -20,6 +19,7 @@ class EasierDodamTextField extends StatefulWidget {
     this.focusNode,
     this.controller,
     this.obscureText = false,
+    this.keyboardType, // 추가된 부분
   });
 
   @override
@@ -32,7 +32,6 @@ class _EasierDodamTextFieldState extends State<EasierDodamTextField> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _focusNode = widget.focusNode ?? FocusNode();
     _controller = widget.controller ?? TextEditingController();
@@ -43,7 +42,6 @@ class _EasierDodamTextFieldState extends State<EasierDodamTextField> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (widget.controller == null) {
       _controller.dispose();
     }
@@ -79,6 +77,7 @@ class _EasierDodamTextFieldState extends State<EasierDodamTextField> {
             textAlignVertical: TextAlignVertical.center,
             cursorColor: EasierDodamColors.primary300,
             obscureText: widget.obscureText,
+            keyboardType: widget.keyboardType, // 추가된 부분
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: EasierDodamStyles.label1.copyWith(height: 1.3),

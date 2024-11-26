@@ -1,4 +1,3 @@
-import 'package:easier_dodam/feature/night_study/night_study_create/night_study_create_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,8 +5,9 @@ import '../../../component/preset_appbar.dart';
 import '../../../component/textfield.dart';
 import '../../../component/theme/color.dart';
 import '../../../component/theme/style.dart';
-import '../item/night_study_item.dart';
+import '../night_study/item/night_study_item.dart';
 import 'item/night_study_create_time_item.dart';
+import 'night_study_create_viewmodel.dart';
 
 class NightStudyCreateScreen extends StatefulWidget {
   const NightStudyCreateScreen({super.key});

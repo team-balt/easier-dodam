@@ -5,13 +5,14 @@ import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
 import 'package:easier_dodam/feature/night_study/item/night_study_item.dart';
 import 'package:easier_dodam/feature/night_study/item/night_study_preset_item.dart';
-import 'package:easier_dodam/feature/night_study/night_study_create/night_study_create_navigation.dart';
 import 'package:easier_dodam/remote/night_study/response/night_study_response.dart';
-import 'package:easier_dodam/utiles/utile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../logout/logout_navigation.dart';
+import '../night_study_create/night_study_create_navigation.dart';
 import '../out/out_navigation.dart';
+import '../out_sleeping/out_sleeping_navigation.dart';
 import 'night_study_navigation.dart';
 import 'night_study_viewmodel.dart';
 
@@ -35,6 +36,7 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
 
     switch (index) {
       case 0:
+        Navigator.pushReplacementNamed(context, outSleepingRoute);
         break;
       case 1:
         Navigator.pushReplacementNamed(context, outRoute);
@@ -43,6 +45,7 @@ class _NightStudyScreenState extends State<NightStudyScreen> {
         Navigator.pushReplacementNamed(context, nightStudyRoute);
         break;
       case 3:
+        Navigator.pushReplacementNamed(context, logoutRoute);
         break;
     }
   }

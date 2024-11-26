@@ -2,51 +2,56 @@ import 'package:easier_dodam/component/appbar.dart';
 import 'package:easier_dodam/component/modal_bottom_sheet_container.dart';
 import 'package:easier_dodam/component/theme/color.dart';
 import 'package:easier_dodam/component/theme/style.dart';
+import 'package:easier_dodam/feature/logout/logout_navigation.dart';
 import 'package:easier_dodam/feature/night_study/night_study_navigation.dart';
-import 'package:easier_dodam/feature/out/item/out_item.dart';
-import 'package:easier_dodam/feature/out/out_navigation.dart';
-import 'package:easier_dodam/feature/out/out_viewmodel.dart';
-import 'package:easier_dodam/feature/out_create/out_create_navigation.dart';
-import 'package:easier_dodam/remote/out/response/out_response.dart';
-import 'package:easier_dodam/utiles/utile.dart';
+import 'package:easier_dodam/feature/out_sleeping/item/out_sleeping_item.dart';
+import 'package:easier_dodam/feature/out_sleeping/out_sleeping_navigation.dart';
+import 'package:easier_dodam/feature/out_sleeping/out_sleeping_viewmodel.dart';
+import 'package:easier_dodam/feature/out_sleeping_create/out_sleeping_create_navigation.dart';
+import 'package:easier_dodam/remote/out_sleeping/response/out_sleeping_response.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../../component/bottom_navigation_bar.dart';
-import '../logout/logout_navigation.dart';
-import '../out_sleeping/out_sleeping_navigation.dart';
-import 'item/out_preset_item.dart';
+import '../out/out_navigation.dart';
 
-class OutScreen extends StatefulWidget {
-  const OutScreen({super.key});
-
-  @override
-  State<OutScreen> createState() => _OutScreenState();
+String formatDateWithDay(DateTime date) {
+  const weekDays = ["월", "화", "수", "목", "금", "토", "일"];
+  return DateFormat('yy.MM.dd').format(date) +
+      "(${weekDays[date.weekday - 1]})";
 }
 
-class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
+class OutSleepingScreen extends StatefulWidget {
+  const OutSleepingScreen({super.key});
 
-  int _selectedIndex = 1;
+  @override
+  State<OutSleepingScreen> createState() => _OutSleepingScreenState();
+}
+
+class _OutSleepingScreenState extends State<OutSleepingScreen>
+    with WidgetsBindingObserver {
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-    });
 
-    switch (index) {
-      case 0:
-        Navigator.pushReplacementNamed(context, outSleepingRoute);
-        break;
-      case 1:
-        Navigator.pushReplacementNamed(context, outRoute);
-        break;
-      case 2:
-        Navigator.pushReplacementNamed(context, nightStudyRoute);
-        break;
-      case 3:
-        Navigator.pushReplacementNamed(context, logoutRoute);
-        break;
-    }
+      switch (index) {
+        case 0:
+          Navigator.pushReplacementNamed(context, outSleepingRoute);
+          break;
+        case 1:
+          Navigator.pushReplacementNamed(context, outRoute);
+          break;
+        case 2:
+          Navigator.pushReplacementNamed(context, nightStudyRoute);
+          break;
+        case 3:
+          Navigator.pushReplacementNamed(context, logoutRoute);
+          break;
+      }
+    });
   }
 
   @override
@@ -65,30 +70,32 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      final viewModel = Provider.of<OutViewModel>(context, listen: false);
-      viewModel.getMyOuts();
+      final viewModel =
+          Provider.of<OutSleepingViewModel>(context, listen: false);
+      viewModel.getMySleepings();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OutViewModel>(
-      builder: (BuildContext context, OutViewModel viewModel, Widget? child) {
+    return Consumer<OutSleepingViewModel>(
+      builder: (BuildContext context, OutSleepingViewModel viewModel,
+          Widget? child) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: EasierDodamDefaultAppbar(
-              title: "외출",
+              title: "외박",
               onPlusClick: () {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
                     return ChangeNotifierProvider.value(
                       value: viewModel,
-                      child: Consumer<OutViewModel>(
+                      child: Consumer<OutSleepingViewModel>(
                         builder: (
                           BuildContext context,
-                          OutViewModel value,
+                          OutSleepingViewModel value,
                           Widget? child,
                         ) {
                           return _bottomSheet(context, viewModel);
@@ -103,7 +110,7 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
           body: SafeArea(
             child: RefreshIndicator(
               onRefresh: () async {
-                return viewModel.getMyOuts();
+                return viewModel.getMySleepings();
               },
               color: EasierDodamColors.primary300,
               backgroundColor: EasierDodamColors.staticWhite,
@@ -112,24 +119,23 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: ListView(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          viewModel.isLoading ? "" : "현재 신청된 외출",
+                          viewModel.isLoading ? "" : "현재 신청된 외박",
                           style: EasierDodamStyles.body1,
                         ),
                         _loading(viewModel.isLoading),
-                        _notExitsOut(
-                          viewModel.outResponses.isEmpty &&
+                        _notExitsSleeping(
+                          viewModel.sleepingResponses.isEmpty &&
                               !viewModel.isLoading,
                           () {
-                            viewModel.getMyOuts();
+                            viewModel.getMySleepings();
                           },
                         ),
-                        ..._outItemsView(
-                          viewModel.outResponses,
+                        ..._sleepingItemsView(
+                          viewModel.sleepingResponses,
                           viewModel.isLoading,
-                          (item) => {viewModel.deleteMyOut(item.id)},
+                          (item) => {viewModel.deleteMySleeping(item.id)},
                         ),
                       ],
                     ),
@@ -138,11 +144,9 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
               ),
             ),
           ),
-          bottomNavigationBar: SafeArea(
-            child: EasierDodamBottomNavigationBar(
-              selectedIndex: _selectedIndex,
-              onItemTapped: _onItemTapped,
-            ),
+          bottomNavigationBar: EasierDodamBottomNavigationBar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: _onItemTapped,
           ),
         );
       },
@@ -152,7 +156,7 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
   Widget _loading(bool isLoading) {
     if (isLoading) {
       return Center(
-        child: Container(
+        child: SizedBox(
           width: 50,
           height: 50,
           child: CircularProgressIndicator(
@@ -162,22 +166,22 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
         ),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
-  Widget _notExitsOut(bool isExit, Function() onClick) {
+  Widget _notExitsSleeping(bool isExit, Function() onClick) {
     if (isExit) {
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 0,
               blurRadius: 4,
-              offset: const Offset(0, 4), // changes position of shadow
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -188,23 +192,18 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                 width: 40,
                 height: 40,
                 child: Image.asset("assets/images/ic_happy.png"),
               ),
-              SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
-                "현재 신청된 외출이 없어요",
+                "현재 신청된 외박이 없어요",
                 style: EasierDodamStyles.label1,
               ),
-              SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Material(
                 color: EasierDodamColors.staticWhite,
                 child: InkWell(
@@ -215,7 +214,9 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
                     decoration: BoxDecoration(
                       border: const Border.fromBorderSide(
                         BorderSide(
-                            width: 1.0, color: EasierDodamColors.gray500),
+                          width: 1.0,
+                          color: EasierDodamColors.gray500,
+                        ),
                       ),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -233,47 +234,47 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
         ),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
-  List<Widget> _outItemsView(
-    List<OutResponse> items,
+  List<Widget> _sleepingItemsView(
+    List<OutSleepingResponse> items,
     bool isLoading,
-    Function(OutResponse) onClickTrash,
+    Function(OutSleepingResponse) onClickTrash,
   ) {
     if (isLoading) {
       return List.empty();
     }
-    return items
-        .map((item) => Column(
-              children: [
-                SizedBox(
-                  height: 12,
-                ),
-                OutItem(
-                  tagType: switch (item.status) {
-                    OutStatus.ALLOWED => TagType.APPROVE,
-                    OutStatus.PENDING => TagType.PENDING,
-                    OutStatus.REJECTED => TagType.REJECT,
-                  },
-                  onClickTrash: () {
-                    onClickTrash(item);
-                  },
-                  startAt: item.startAt.timeOfDay,
-                  endAt: item.endAt.timeOfDay,
-                ),
-              ],
-            ))
-        .toList();
+    return items.map((item) {
+      // DateTime 변환
+      DateTime? startAt = DateTime.tryParse(item.startAt.toString());
+      DateTime? endAt = DateTime.tryParse(item.endAt.toString());
+
+      return Column(
+        children: [
+          const SizedBox(height: 12),
+          OutSleepingItem(
+            tagType: switch (item.status) {
+              OutSleepingStatus.ALLOWED => TagType.APPROVE,
+              OutSleepingStatus.PENDING => TagType.PENDING,
+              OutSleepingStatus.REJECTED => TagType.REJECT,
+            },
+            onClickTrash: () {
+              onClickTrash(item);
+            },
+            startAt: startAt ?? DateTime.now(),
+            endAt: endAt ?? DateTime.now(),
+          ),
+        ],
+      );
+    }).toList();
   }
 
-  Widget _bottomSheet(BuildContext context, OutViewModel viewModel) {
+  Widget _bottomSheet(BuildContext context, OutSleepingViewModel viewModel) {
     return ModalBottomSheetContainer(
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -281,47 +282,43 @@ class _OutScreenState extends State<OutScreen> with WidgetsBindingObserver {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "외출 신청하기",
+                  "외박 신청하기",
                   style: EasierDodamStyles.title1,
                 ),
               ),
-              SizedBox(
-                height: 8,
+              const SizedBox(height: 8),
+              ...viewModel.sleepingEntities.map(
+                (data) {
+                  // DateTime 변환
+                  DateTime? startAt =
+                      DateTime.tryParse(data.startAt.toString());
+                  DateTime? endAt = DateTime.tryParse(data.endAt.toString());
+
+                  return OutSleepingPresetItem(
+                    title: data.title,
+                    reason: data.reason,
+                    startAt: startAt ?? DateTime.now(),
+                    endAt: endAt ?? DateTime.now(),
+                    onTrashClick: () {
+                      viewModel.removeEntity(data.id ?? 0);
+                    },
+                    onClick: () async {
+                      Navigator.pop(context);
+                      await viewModel.requestSleeping(data);
+                    },
+                  );
+                },
               ),
-              ...viewModel.outEntities
-                  .map(
-                    (data) => OutPresetItem(
-                      title: data.title,
-                      reason: data.reason,
-                      startAt: "${data.startAt.hour}시 ${data.startAt.minute}분",
-                      endAt: "${data.endAt.hour}시 ${data.endAt.minute}분",
-                      onTrashClick: () {
-                        viewModel.removeEntity(data.id ?? 0);
-                      },
-                      onClick: () async {
-                        Navigator.pop(context);
-                        await viewModel.requestOut(data);
-                      },
-                    ),
-                  )
-                  .toList(),
-              SizedBox(
-                height: 8,
-              ),
-              Divider(
-                height: 1,
-                color: EasierDodamColors.gray600,
-              ),
-              SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
+              const Divider(height: 1, color: EasierDodamColors.gray600),
+              const SizedBox(height: 8),
               Material(
                 color: EasierDodamColors.staticWhite,
                 child: InkWell(
                   onTap: () {
                     Navigator.pushReplacementNamed(
                       context,
-                      outCreateRoute,
+                      outSleepingCreateRoute,
                     );
                   },
                   child: Padding(

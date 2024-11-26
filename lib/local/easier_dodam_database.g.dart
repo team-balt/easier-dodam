@@ -78,6 +78,8 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
 
   NighStudyDao? _nightStudyDaoInstance;
 
+  OutSleepingDao? _outSleepingDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -103,6 +105,8 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
             'CREATE TABLE IF NOT EXISTS `out` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `night_study` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `place` TEXT NOT NULL, `content` TEXT NOT NULL, `doNeedPhone` INTEGER NOT NULL, `reasonForPhone` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `out_sleeping` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `reason` TEXT NOT NULL, `startAt` TEXT NOT NULL, `endAt` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -118,6 +122,12 @@ class _$EasierDodamDatabase extends EasierDodamDatabase {
   @override
   NighStudyDao get nightStudyDao {
     return _nightStudyDaoInstance ??= _$NighStudyDao(database, changeListener);
+  }
+
+  @override
+  OutSleepingDao get outSleepingDao {
+    return _outSleepingDaoInstance ??=
+        _$OutSleepingDao(database, changeListener);
   }
 }
 
@@ -253,8 +263,8 @@ class _$NighStudyDao extends NighStudyDao {
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
-                  'startAt': _datetimeConverter.encode(item.startAt),
-                  'endAt': _datetimeConverter.encode(item.endAt)
+                  'startAt': _dateTimeConverter.encode(item.startAt),
+                  'endAt': _dateTimeConverter.encode(item.endAt)
                 },
             changeListener),
         _nightStudyEntityUpdateAdapter = UpdateAdapter(
@@ -268,8 +278,8 @@ class _$NighStudyDao extends NighStudyDao {
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
-                  'startAt': _datetimeConverter.encode(item.startAt),
-                  'endAt': _datetimeConverter.encode(item.endAt)
+                  'startAt': _dateTimeConverter.encode(item.startAt),
+                  'endAt': _dateTimeConverter.encode(item.endAt)
                 },
             changeListener),
         _nightStudyEntityDeletionAdapter = DeletionAdapter(
@@ -283,8 +293,8 @@ class _$NighStudyDao extends NighStudyDao {
                   'content': item.content,
                   'doNeedPhone': item.doNeedPhone ? 1 : 0,
                   'reasonForPhone': item.reasonForPhone,
-                  'startAt': _datetimeConverter.encode(item.startAt),
-                  'endAt': _datetimeConverter.encode(item.endAt)
+                  'startAt': _dateTimeConverter.encode(item.startAt),
+                  'endAt': _dateTimeConverter.encode(item.endAt)
                 },
             changeListener);
 
@@ -310,8 +320,8 @@ class _$NighStudyDao extends NighStudyDao {
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
-            startAt: _datetimeConverter.decode(row['startAt'] as String),
-            endAt: _datetimeConverter.decode(row['endAt'] as String)),
+            startAt: _dateTimeConverter.decode(row['startAt'] as String),
+            endAt: _dateTimeConverter.decode(row['endAt'] as String)),
         arguments: [id]);
   }
 
@@ -325,8 +335,8 @@ class _$NighStudyDao extends NighStudyDao {
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
-            startAt: _datetimeConverter.decode(row['startAt'] as String),
-            endAt: _datetimeConverter.decode(row['endAt'] as String)));
+            startAt: _dateTimeConverter.decode(row['startAt'] as String),
+            endAt: _dateTimeConverter.decode(row['endAt'] as String)));
   }
 
   @override
@@ -339,8 +349,8 @@ class _$NighStudyDao extends NighStudyDao {
             content: row['content'] as String,
             doNeedPhone: (row['doNeedPhone'] as int) != 0,
             reasonForPhone: row['reasonForPhone'] as String,
-            startAt: _datetimeConverter.decode(row['startAt'] as String),
-            endAt: _datetimeConverter.decode(row['endAt'] as String)),
+            startAt: _dateTimeConverter.decode(row['startAt'] as String),
+            endAt: _dateTimeConverter.decode(row['endAt'] as String)),
         queryableName: 'night_study',
         isView: false);
   }
@@ -374,7 +384,128 @@ class _$NighStudyDao extends NighStudyDao {
   }
 }
 
+class _$OutSleepingDao extends OutSleepingDao {
+  _$OutSleepingDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _outSleepingEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'out_sleeping',
+            (OutSleepingEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'title': item.title,
+                  'reason': item.reason,
+                  'startAt': item.startAt,
+                  'endAt': item.endAt
+                },
+            changeListener),
+        _outSleepingEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'out_sleeping',
+            ['id'],
+            (OutSleepingEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'title': item.title,
+                  'reason': item.reason,
+                  'startAt': item.startAt,
+                  'endAt': item.endAt
+                },
+            changeListener),
+        _outSleepingEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'out_sleeping',
+            ['id'],
+            (OutSleepingEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'title': item.title,
+                  'reason': item.reason,
+                  'startAt': item.startAt,
+                  'endAt': item.endAt
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<OutSleepingEntity> _outSleepingEntityInsertionAdapter;
+
+  final UpdateAdapter<OutSleepingEntity> _outSleepingEntityUpdateAdapter;
+
+  final DeletionAdapter<OutSleepingEntity> _outSleepingEntityDeletionAdapter;
+
+  @override
+  Future<OutSleepingEntity?> findOutSleepingEntityById(int id) async {
+    return _queryAdapter.query('SELECT * FROM out_sleeping WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => OutSleepingEntity(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            reason: row['reason'] as String,
+            startAt: row['startAt'] as String,
+            endAt: row['endAt'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<OutSleepingEntity>> findAllEntities() async {
+    return _queryAdapter.queryList('SELECT * FROM out_sleeping',
+        mapper: (Map<String, Object?> row) => OutSleepingEntity(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            reason: row['reason'] as String,
+            startAt: row['startAt'] as String,
+            endAt: row['endAt'] as String));
+  }
+
+  @override
+  Stream<List<OutSleepingEntity>> findAllEntitiesWithStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM out_sleeping',
+        mapper: (Map<String, Object?> row) => OutSleepingEntity(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            reason: row['reason'] as String,
+            startAt: row['startAt'] as String,
+            endAt: row['endAt'] as String),
+        queryableName: 'out_sleeping',
+        isView: false);
+  }
+
+  @override
+  Future<void> deleteOutSleepingEntityById(int id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM out_sleeping WHERE id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAllOutSleepingEntities() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM out_sleeping');
+  }
+
+  @override
+  Future<void> insertOutSleepingEntity(
+      OutSleepingEntity outSleepingEntity) async {
+    await _outSleepingEntityInsertionAdapter.insert(
+        outSleepingEntity, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateOutSleepingEntity(
+      OutSleepingEntity outSleepingEntity) async {
+    await _outSleepingEntityUpdateAdapter.update(
+        outSleepingEntity, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteOutSleepingEntity(
+      OutSleepingEntity outSleepingEntity) async {
+    await _outSleepingEntityDeletionAdapter.delete(outSleepingEntity);
+  }
+}
+
 // ignore_for_file: unused_element
 final _timeOfDayConverter = TimeOfDayConverter();
-final _datetimeConverter = DatetimeConverter();
+final _dateTimeConverter = DateTimeConverter();
 final _placeTypeConverter = PlaceTypeConverter();

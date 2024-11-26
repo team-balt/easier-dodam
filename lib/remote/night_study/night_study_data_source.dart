@@ -30,7 +30,7 @@ class NightStudyDataSource{
     return true;
   }
 
-  Future<List<NightStudyResponse>> getMyNightStudies() async{
+  Future<List<NightStudyResponse>> getMyNightStudies() async {
     final response = await CoreClient.get<List<NightStudyResponse>>(
         url: EasierDodamUrl.NIGHT_STUDY_MY,
         listDecoder: (data) {
@@ -40,7 +40,7 @@ class NightStudyDataSource{
       },
     );
     return response.data;
-    }
+  }
 
   Future<bool> deleteMyNightStudy(int id) async {
     final response = await CoreClient.delete<void>(

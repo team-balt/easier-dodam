@@ -2,7 +2,8 @@ import 'package:easier_dodam/local/database_manager.dart';
 import 'package:easier_dodam/local/entity/night_study_entity.dart';
 import 'package:flutter/material.dart';
 
-import '../item/night_study_item.dart';
+import '../night_study/item/night_study_item.dart';
+
 
 class NightStudyCreateViewModel with ChangeNotifier {
   Future<bool> createNightStudy({
