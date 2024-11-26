@@ -12,6 +12,7 @@ import 'package:easier_dodam/feature/out_sleeping/out_sleeping.dart';
 import 'package:easier_dodam/feature/out_sleeping/out_sleeping_navigation.dart';
 import 'package:easier_dodam/feature/out_sleeping/out_sleeping_viewmodel.dart';
 import 'package:easier_dodam/feature/out_sleeping_create/out_sleeping_create.dart';
+import 'package:easier_dodam/remote/core/core_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,6 +26,7 @@ import 'feature/night_study_create/night_study_create_navigation.dart';
 import 'feature/out/out_navigation.dart';
 import 'feature/out/out_viewmodel.dart';
 import 'feature/out_sleeping_create/out_sleeping_create_navigation.dart';
+import 'local/storage_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,8 +88,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, loginRoute);
+    Future.delayed(const Duration(seconds: 1), () async {
+      if (await CoreClient().hasToken()) {
+        Navigator.pushReplacementNamed(context, outSleepingRoute);
+      } else {
+        Navigator.pushReplacementNamed(context, loginRoute);
+      }
     });
 
     return Scaffold(
