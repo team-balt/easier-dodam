@@ -38,6 +38,7 @@ class _OutSleepingCreateScreenState extends State<OutSleepingCreateScreen> {
       child: Consumer<OutSleepingCreateViewModel>(
         builder: (context, provider, child) {
           return Scaffold(
+            resizeToAvoidBottomInset: true,
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: EasierDodamDefaultPresetAppbar(
@@ -50,7 +51,7 @@ class _OutSleepingCreateScreenState extends State<OutSleepingCreateScreen> {
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
+                child: ListView(
                   children: [
                     EasierDodamTextField(
                       labelText: "프리셋 제목",
@@ -70,7 +71,23 @@ class _OutSleepingCreateScreenState extends State<OutSleepingCreateScreen> {
                       controller: _durationTextFieldController,
                       keyboardType: TextInputType.number,
                     ),
-                    const Expanded(child: SizedBox()),
+                    SizedBox(
+                      height: 150,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     SizedBox(
                       width: double.infinity,
                       height: 56.0,

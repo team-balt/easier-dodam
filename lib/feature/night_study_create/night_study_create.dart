@@ -17,9 +17,12 @@ class NightStudyCreateScreen extends StatefulWidget {
 }
 
 class _NightStudyCreateState extends State<NightStudyCreateScreen> {
-  final TextEditingController _titleTextFieldController = TextEditingController();
-  final TextEditingController _contentTextFieldController = TextEditingController();
-  final TextEditingController _reasonTextFieldController = TextEditingController();
+  final TextEditingController _titleTextFieldController =
+      TextEditingController();
+  final TextEditingController _contentTextFieldController =
+      TextEditingController();
+  final TextEditingController _reasonTextFieldController =
+      TextEditingController();
 
   DateTime startAt = DateTime.now();
   DateTime endAt = adjustDateTime(DateTime.now(), hoursToAdd: 3);
@@ -42,6 +45,7 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
       child: Consumer<NightStudyCreateViewModel>(
         builder: (context, provider, child) {
           return Scaffold(
+            resizeToAvoidBottomInset: true,
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: EasierDodamDefaultPresetAppbar(
@@ -54,7 +58,7 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
+                child: ListView(
                   children: [
                     EasierDodamTextField(
                       labelText: "프리셋 제목",
@@ -121,7 +125,8 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                         Expanded(
                           child: NightStudyCreateTimeItem(
                             title: "심자 시작 날짜",
-                            buttonText: "${startAt.year}년 ${startAt.month}월 ${startAt.day}일",
+                            buttonText:
+                                "${startAt.year}년 ${startAt.month}월 ${startAt.day}일",
                             onButtonClick: () async {
                               final date = await showDatePicker(
                                 context: context,
@@ -144,7 +149,8 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                         Expanded(
                           child: NightStudyCreateTimeItem(
                             title: "심자 종료 날짜",
-                            buttonText: "${endAt.year}년 ${endAt.month}월 ${endAt.day}일",
+                            buttonText:
+                                "${endAt.year}년 ${endAt.month}월 ${endAt.day}일",
                             onButtonClick: () async {
                               final date = await showDatePicker(
                                 context: context,
@@ -162,7 +168,23 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                         ),
                       ],
                     ),
-                    const Spacer(),
+                    SizedBox(
+                      height: 150,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     SizedBox(
                       width: double.infinity,
                       height: 56.0,
@@ -184,9 +206,11 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                             );
                             return;
                           }
-                          if (doNeedPhone && _reasonTextFieldController.text.isEmpty) {
+                          if (doNeedPhone &&
+                              _reasonTextFieldController.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("휴대폰 필요 사유를 입력해주세요.")),
+                              const SnackBar(
+                                  content: Text("휴대폰 필요 사유를 입력해주세요.")),
                             );
                             return;
                           }
@@ -203,9 +227,7 @@ class _NightStudyCreateState extends State<NightStudyCreateScreen> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                        height: 8
-                    ),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
