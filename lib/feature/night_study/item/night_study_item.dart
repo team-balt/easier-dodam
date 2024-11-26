@@ -41,8 +41,7 @@ extension PlaceTypeExtension on PlaceType {
   @override
   Widget build(BuildContext context) {
 
-    final hour = dateDifferenceInDays(DateTime.now(), endAt) ~/ 60;
-    final minute = dateDifferenceInDays(DateTime.now(), endAt) % 60;
+    final day = dateDifferenceInDays(DateTime.now(), endAt);
 
     return Container(
       decoration: BoxDecoration(
@@ -117,7 +116,7 @@ extension PlaceTypeExtension on PlaceType {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  hour > 0 ? "$hour시간" : "$minute분",
+                  "$day일 남음",
                   style: EasierDodamStyles.label2,
                 ),
                 SizedBox(
@@ -160,7 +159,7 @@ extension PlaceTypeExtension on PlaceType {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "복귀",
+                      "종료",
                       style: EasierDodamStyles.label2.copyWith(
                         fontSize: 12.0,
                       ),
