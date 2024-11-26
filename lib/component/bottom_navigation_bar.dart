@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../feature/night_study/night_study.dart';
-import '../feature/out/out.dart';
-
 class EasierDodamBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
@@ -81,17 +75,14 @@ class EasierDodamBottomNavigationBar extends StatelessWidget {
             icon,
             height: isSelected ? 30 : 24,
             width: isSelected ? 30 : 24,
-            colorFilter: ColorFilter.mode(
-              isSelected ? Colors.blue : Colors.grey,
-              BlendMode.srcIn,
-            ),
+            color: isSelected ? Colors.blue : Colors.grey,
           ),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               color: isSelected ? Colors.blue : Colors.grey,
-              fontSize: isSelected ? 13 : 12,
+              fontSize: isSelected ? 14 : 12,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),
